@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>install_m2crypto | Peace In Mind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I have spend a lot of time to install m2crypo in mac. here is some problems I come accoss in this process. 1# pip install m2crypto --user python Cannot find swig1brew install swig solve this problem,">
+<meta name="keywords" content="python, pip, library">
+<meta property="og:type" content="article">
+<meta property="og:title" content="install_m2crypto">
+<meta property="og:url" content="http://yoursite.com/2017/03/19/install-m2crypto/index.html">
+<meta property="og:site_name" content="Peace In Mind">
+<meta property="og:description" content="I have spend a lot of time to install m2crypo in mac. here is some problems I come accoss in this process. 1# pip install m2crypto --user python Cannot find swig1brew install swig solve this problem,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:updated_time" content="2019-09-04T12:02:00.760Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="install_m2crypto">
+<meta name="twitter:description" content="I have spend a lot of time to install m2crypo in mac. here is some problems I come accoss in this process. 1# pip install m2crypto --user python Cannot find swig1brew install swig solve this problem,">
+  
+    <link rel="alternate" href="/atom.xml" title="Peace In Mind" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Peace In Mind</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Go Bigger or Go Home</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-install-m2crypto" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/19/install-m2crypto/" class="article-date">
+  <time datetime="2017-03-19T07:21:22.000Z" itemprop="datePublished">2017-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      install_m2crypto
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I have spend a lot of time to install m2crypo in mac. here is some problems I come accoss in this process.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> pip install m2crypto --user python</span><br></pre></td></tr></table></figure>
+<h2 id="Cannot-find-swig"><a href="#Cannot-find-swig" class="headerlink" title="Cannot find swig"></a>Cannot find swig</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install swig</span><br></pre></td></tr></table></figure>
+<p>solve this problem, but new error follows.</p>
+<h2 id="Cannot-find-header-file"><a href="#Cannot-find-header-file" class="headerlink" title="Cannot find header file"></a>Cannot find header file</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Collecting m2crypto</span><br><span class="line">  Using cached M2Crypto-0.25.1.tar.gz</span><br><span class="line">Requirement already satisfied: typing in /Users/bin.yu/Library/Python/2.7/lib/python/site-packages (from m2crypto)</span><br><span class="line">Installing collected packages: m2crypto</span><br><span class="line">  Running setup.py install for m2crypto ... error</span><br><span class="line">    Complete output from command /usr/bin/python -u -c &quot;import setuptools, tokenize;__file__=&apos;/private/tmp/pip-build-4LjWjW/m2crypto/setup.py&apos;;f=getattr(tokenize, &apos;open&apos;, open)(__file__);code=f.read().replace(&apos;\r\n&apos;, &apos;\n&apos;);f.close();exec(compile(code, __file__, &apos;exec&apos;))&quot; install --record /tmp/pip-Fvea5n-record/install-record.txt --single-version-externally-managed --compile:</span><br><span class="line">    running install</span><br><span class="line">    running build</span><br><span class="line">    running build_py</span><br><span class="line">    copying M2Crypto/__init__.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto</span><br><span class="line">    copying M2Crypto/_m2crypto.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto</span><br><span class="line">    ...</span><br><span class="line">    copying M2Crypto/SSL/SSLServer.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    copying M2Crypto/SSL/timeout.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    copying M2Crypto/SSL/TwistedProtocolWrapper.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    running build_ext</span><br><span class="line">    building &apos;M2Crypto.__m2crypto&apos; extension</span><br><span class="line">    swigging SWIG/_m2crypto.i to SWIG/_m2crypto_wrap.c</span><br><span class="line">    swig -python -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/usr/include -includeall -modern -builtin -outdir build/lib.macosx-10.11-intel-2.7/M2Crypto -o SWIG/_m2crypto_wrap.c SWIG/_m2crypto.i</span><br><span class="line">    SWIG/_m2crypto.i:31: Error: Unable to find &apos;openssl/opensslv.h&apos;</span><br><span class="line">    SWIG/_m2crypto.i:45: Error: Unable to find &apos;openssl/safestack.h&apos;</span><br><span class="line">    SWIG/_evp.i:12: Error: Unable to find &apos;openssl/opensslconf.h&apos;</span><br><span class="line">    SWIG/_ec.i:7: Error: Unable to find &apos;openssl/opensslconf.h&apos;</span><br><span class="line">    error: command &apos;swig&apos; failed with exit status 1</span><br><span class="line">    </span><br><span class="line">    ----------------------------------------</span><br><span class="line">Command &quot;/usr/bin/python -u -c &quot;import setuptools, tokenize;__file__=&apos;/private/tmp/pip-build-4LjWjW/m2crypto/setup.py&apos;;f=getattr(tokenize, &apos;open&apos;, open)(__file__);code=f.read().replace(&apos;\r\n&apos;, &apos;\n&apos;);f.close();exec(compile(code, __file__, &apos;exec&apos;))&quot; install --record /tmp/pip-Fvea5n-record/install-record.txt --single-version-externally-managed --compile&quot; failed with error code 1 in /private/tmp/pip-build-4LjWjW/m2crypto/</span><br></pre></td></tr></table></figure>
+<p>The error is obvious, it is because it cannot find the openssl include directory. However, I have installed openssl by brew before and swig includes <code>-I/usr/include</code>, but my openssl’s header directory is <code>/usr/local/opt/openssl/include</code>, so one option is create a soft link between them. Here is the command.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># sudo ln -s /usr/local/opt/openssl/include/openssl /usr/include/openssl</span><br><span class="line">ln: /usr/include/openssl: Operation not permitted</span><br></pre></td></tr></table></figure>
+<p>this error is because new version of Mac OS EL Capitan 10.11.6 is not allow to operate some critical path, you can refer to this <a href="http://apple.stackexchange.com/questions/196224/unix-ln-s-command-not-permitted-in-osx-el-capitan-beta3" target="_blank" rel="noopener">link</a>. It is not recommended to close rootless. So we have to find a better way to solve this problem.</p>
+<p>another option is check swig command</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swig -python -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/usr/include -includeall -modern -builtin -outdir build/lib.macosx-10.11-intel-2.7/M2Crypto -o SWIG/_m2crypto_wrap.c SWIG/_m2crypto.i</span><br></pre></td></tr></table></figure>
+<p>by <code>swig --hel</code> we find that</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Options can also be defined using the SWIG_FEATURES environment variable, for example:</span><br><span class="line"></span><br><span class="line">  $ SWIG_FEATURES=&quot;-Wall&quot;</span><br><span class="line">  $ export SWIG_FEATURES</span><br><span class="line">  $ swig -python interface.i</span><br><span class="line"></span><br><span class="line">is equivalent to: </span><br><span class="line"></span><br><span class="line">  $ swig -Wall -python interface.i</span><br></pre></td></tr></table></figure>
+<p>so we can set env variable <code>SWIG_FEATURES</code> to change header path.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">env LDFLAGS=&quot;-L&quot;(brew --prefix openssl)&quot;/lib&quot; \</span><br><span class="line">CFLAGS=&quot;-I&quot;(brew --prefix openssl)&quot;/include&quot; \</span><br><span class="line">SWIG_FEATURES=&quot;-cpperraswarn -includeall -I&quot;(brew --prefix openssl)&quot;/include&quot; \</span><br><span class="line">pip install m2crypto</span><br></pre></td></tr></table></figure>
+<p>for more detail please refer to <a href="http://stackoverflow.com/questions/33005354/trouble-installing-m2crypto-with-pip-on-el-capitan" target="_blank" rel="noopener">Trouble installing m2crypto with pip on El Capitan</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/19/install-m2crypto/" data-id="ck059hv6o0008vzomvafgul0q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-pip-library/">python, pip, library</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/21/logstash/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          logstash
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/05/openssl/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">openssl</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm-IR/">algorithm, IR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk-pem/">awk, pem</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-python-pip/">centos, python, pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/g-c-compiler/">g++, c++, compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-java/">guava, java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-8-lambda/">java 8, lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-maven/">java, maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/">jps, hsperfdata, jstack, jmap, jhat, systemctl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log-es-elk/">log, es, elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mqtt/">mqtt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis-qna/">mybatis, qna</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openresty-lua-module/">openresty, lua, module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-pip-library/">python, pip, library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-lua/">redis, lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/">spring-boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-keytool-openssl/">ssl, keytool, openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tls-encrypted-alert/">ssl, tls, encrypted alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tsl-security-web/">ssl, tsl, security, web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tr/">tr</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/algorithm-IR/" style="font-size: 10px;">algorithm, IR</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/awk-pem/" style="font-size: 10px;">awk, pem</a> <a href="/tags/centos-python-pip/" style="font-size: 10px;">centos, python, pip</a> <a href="/tags/g-c-compiler/" style="font-size: 10px;">g++, c++, compiler</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/guava-java/" style="font-size: 10px;">guava, java</a> <a href="/tags/java-8-lambda/" style="font-size: 10px;">java 8, lambda</a> <a href="/tags/java-maven/" style="font-size: 10px;">java, maven</a> <a href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/" style="font-size: 10px;">jps, hsperfdata, jstack, jmap, jhat, systemctl</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/log-es-elk/" style="font-size: 10px;">log, es, elk</a> <a href="/tags/mqtt/" style="font-size: 10px;">mqtt</a> <a href="/tags/mybatis-qna/" style="font-size: 10px;">mybatis, qna</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/openresty-lua-module/" style="font-size: 10px;">openresty, lua, module</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/python-pip-library/" style="font-size: 10px;">python, pip, library</a> <a href="/tags/redis-lua/" style="font-size: 10px;">redis, lua</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/spring-boot/" style="font-size: 10px;">spring-boot</a> <a href="/tags/ssl-keytool-openssl/" style="font-size: 10px;">ssl, keytool, openssl</a> <a href="/tags/ssl-tls-encrypted-alert/" style="font-size: 10px;">ssl, tls, encrypted alert</a> <a href="/tags/ssl-tsl-security-web/" style="font-size: 10px;">ssl, tsl, security, web</a> <a href="/tags/tr/" style="font-size: 10px;">tr</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/04/remove-big-file-from-git-history/">Remove big file from GIT history</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/21/ssl-tls-encrypted-alert/">ssl_tls_encrypted_alert</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/05/spring-boot-qna/">spring_boot_qna</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/22/mybatis-collection-with-only-size-one/">mybatis-collection-with-only-size-one</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/06/compiler/">compiler</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Peace Coder<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

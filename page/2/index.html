@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Peace In Mind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Peace In Mind">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="Peace In Mind">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Peace In Mind">
+  
+    <link rel="alternate" href="/atom.xml" title="Peace In Mind" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Peace In Mind</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Go Bigger or Go Home</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-convert-pem-to-jks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/29/convert-pem-to-jks/" class="article-date">
+  <time datetime="2017-03-29T06:04:39.000Z" itemprop="datePublished">2017-03-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/29/convert-pem-to-jks/">convert_pem_to_jks</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Convert-PrivateKey-Certificate-to-JKS"><a href="#Convert-PrivateKey-Certificate-to-JKS" class="headerlink" title="Convert PrivateKey/Certificate to JKS"></a>Convert PrivateKey/Certificate to JKS</h1><p>openssl pkcs12 -export -in nmp_client.crt -inkey nmp_client.key -out nmp_client.pfx<br>nmp_client.crt nmp_client.key</p>
+<p>keytool -genkey -keyalg RSA -alias endeca -keystore nmp_client_truststore.ks</p>
+<p>keytool -delete -alias endeca -keystore nmp_client_truststore.ks</p>
+<p>../ca/nmp_ca.crt</p>
+<p>keytool -import -v -trustcacerts -alias endeca-ca -file ../ca/nmp_ca.crt -keystore nmp_client_truststore.ks</p>
+<p>keytool -genkey -keyalg RSA -alias endeca -keystore nmp_client_keystore.ks<br>keytool -delete -alias endeca -keystore nmp_client_keystore.ks</p>
+<p>keytool -v -importkeystore -srckeystore nmp_client.pfx -srcstoretype PKCS12 -destkeystore nmp_client_keystore.ks -deststoretype JKS</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://docs.oracle.com/cd/E35976_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html" target="_blank" rel="noopener">https://docs.oracle.com/cd/E35976_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html</a><br><a href="https://blogs.technet.microsoft.com/uclobby/2015/05/22/merge-certificate-public-and-private-key-with-openssl/" target="_blank" rel="noopener">https://blogs.technet.microsoft.com/uclobby/2015/05/22/merge-certificate-public-and-private-key-with-openssl/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/29/convert-pem-to-jks/" data-id="ck059hv6n0006vzomfnp2vllt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-logstash" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/21/logstash/" class="article-date">
+  <time datetime="2017-03-21T01:44:58.000Z" itemprop="datePublished">2017-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/21/logstash/">logstash</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>logstash file rotate and start_position</p>
+<ol>
+<li>logstash使用inode来确定一个文件是否是新文件</li>
+<li>logstash 中start_position 如果表示beginning 表示从新文件的第一行开始处理，如果不是新文件的话，那么就从sincedb中查看对应inode的offset，从offset的位置开始处理</li>
+<li>log4j使用mv（rename并非copy）方式rotate日志文件，因此rotate 生成的日志文件将不会被logstash 再次处理</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/21/logstash/" data-id="ck059hv6y000mvzomrmra8h7l" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/log-es-elk/">log, es, elk</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-install-m2crypto" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/19/install-m2crypto/" class="article-date">
+  <time datetime="2017-03-19T07:21:22.000Z" itemprop="datePublished">2017-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/19/install-m2crypto/">install_m2crypto</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I have spend a lot of time to install m2crypo in mac. here is some problems I come accoss in this process.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> pip install m2crypto --user python</span><br></pre></td></tr></table></figure>
+<h2 id="Cannot-find-swig"><a href="#Cannot-find-swig" class="headerlink" title="Cannot find swig"></a>Cannot find swig</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install swig</span><br></pre></td></tr></table></figure>
+<p>solve this problem, but new error follows.</p>
+<h2 id="Cannot-find-header-file"><a href="#Cannot-find-header-file" class="headerlink" title="Cannot find header file"></a>Cannot find header file</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Collecting m2crypto</span><br><span class="line">  Using cached M2Crypto-0.25.1.tar.gz</span><br><span class="line">Requirement already satisfied: typing in /Users/bin.yu/Library/Python/2.7/lib/python/site-packages (from m2crypto)</span><br><span class="line">Installing collected packages: m2crypto</span><br><span class="line">  Running setup.py install for m2crypto ... error</span><br><span class="line">    Complete output from command /usr/bin/python -u -c &quot;import setuptools, tokenize;__file__=&apos;/private/tmp/pip-build-4LjWjW/m2crypto/setup.py&apos;;f=getattr(tokenize, &apos;open&apos;, open)(__file__);code=f.read().replace(&apos;\r\n&apos;, &apos;\n&apos;);f.close();exec(compile(code, __file__, &apos;exec&apos;))&quot; install --record /tmp/pip-Fvea5n-record/install-record.txt --single-version-externally-managed --compile:</span><br><span class="line">    running install</span><br><span class="line">    running build</span><br><span class="line">    running build_py</span><br><span class="line">    copying M2Crypto/__init__.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto</span><br><span class="line">    copying M2Crypto/_m2crypto.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto</span><br><span class="line">    ...</span><br><span class="line">    copying M2Crypto/SSL/SSLServer.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    copying M2Crypto/SSL/timeout.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    copying M2Crypto/SSL/TwistedProtocolWrapper.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    running build_ext</span><br><span class="line">    building &apos;M2Crypto.__m2crypto&apos; extension</span><br><span class="line">    swigging SWIG/_m2crypto.i to SWIG/_m2crypto_wrap.c</span><br><span class="line">    swig -python -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/usr/include -includeall -modern -builtin -outdir build/lib.macosx-10.11-intel-2.7/M2Crypto -o SWIG/_m2crypto_wrap.c SWIG/_m2crypto.i</span><br><span class="line">    SWIG/_m2crypto.i:31: Error: Unable to find &apos;openssl/opensslv.h&apos;</span><br><span class="line">    SWIG/_m2crypto.i:45: Error: Unable to find &apos;openssl/safestack.h&apos;</span><br><span class="line">    SWIG/_evp.i:12: Error: Unable to find &apos;openssl/opensslconf.h&apos;</span><br><span class="line">    SWIG/_ec.i:7: Error: Unable to find &apos;openssl/opensslconf.h&apos;</span><br><span class="line">    error: command &apos;swig&apos; failed with exit status 1</span><br><span class="line">    </span><br><span class="line">    ----------------------------------------</span><br><span class="line">Command &quot;/usr/bin/python -u -c &quot;import setuptools, tokenize;__file__=&apos;/private/tmp/pip-build-4LjWjW/m2crypto/setup.py&apos;;f=getattr(tokenize, &apos;open&apos;, open)(__file__);code=f.read().replace(&apos;\r\n&apos;, &apos;\n&apos;);f.close();exec(compile(code, __file__, &apos;exec&apos;))&quot; install --record /tmp/pip-Fvea5n-record/install-record.txt --single-version-externally-managed --compile&quot; failed with error code 1 in /private/tmp/pip-build-4LjWjW/m2crypto/</span><br></pre></td></tr></table></figure>
+<p>The error is obvious, it is because it cannot find the openssl include directory. However, I have installed openssl by brew before and swig includes <code>-I/usr/include</code>, but my openssl’s header directory is <code>/usr/local/opt/openssl/include</code>, so one option is create a soft link between them. Here is the command.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># sudo ln -s /usr/local/opt/openssl/include/openssl /usr/include/openssl</span><br><span class="line">ln: /usr/include/openssl: Operation not permitted</span><br></pre></td></tr></table></figure>
+<p>this error is because new version of Mac OS EL Capitan 10.11.6 is not allow to operate some critical path, you can refer to this <a href="http://apple.stackexchange.com/questions/196224/unix-ln-s-command-not-permitted-in-osx-el-capitan-beta3" target="_blank" rel="noopener">link</a>. It is not recommended to close rootless. So we have to find a better way to solve this problem.</p>
+<p>another option is check swig command</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swig -python -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/usr/include -includeall -modern -builtin -outdir build/lib.macosx-10.11-intel-2.7/M2Crypto -o SWIG/_m2crypto_wrap.c SWIG/_m2crypto.i</span><br></pre></td></tr></table></figure>
+<p>by <code>swig --hel</code> we find that</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Options can also be defined using the SWIG_FEATURES environment variable, for example:</span><br><span class="line"></span><br><span class="line">  $ SWIG_FEATURES=&quot;-Wall&quot;</span><br><span class="line">  $ export SWIG_FEATURES</span><br><span class="line">  $ swig -python interface.i</span><br><span class="line"></span><br><span class="line">is equivalent to: </span><br><span class="line"></span><br><span class="line">  $ swig -Wall -python interface.i</span><br></pre></td></tr></table></figure>
+<p>so we can set env variable <code>SWIG_FEATURES</code> to change header path.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">env LDFLAGS=&quot;-L&quot;(brew --prefix openssl)&quot;/lib&quot; \</span><br><span class="line">CFLAGS=&quot;-I&quot;(brew --prefix openssl)&quot;/include&quot; \</span><br><span class="line">SWIG_FEATURES=&quot;-cpperraswarn -includeall -I&quot;(brew --prefix openssl)&quot;/include&quot; \</span><br><span class="line">pip install m2crypto</span><br></pre></td></tr></table></figure>
+<p>for more detail please refer to <a href="http://stackoverflow.com/questions/33005354/trouble-installing-m2crypto-with-pip-on-el-capitan" target="_blank" rel="noopener">Trouble installing m2crypto with pip on El Capitan</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/19/install-m2crypto/" data-id="ck059hv6o0008vzomvafgul0q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python-pip-library/">python, pip, library</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-openssl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/05/openssl/" class="article-date">
+  <time datetime="2017-03-05T14:54:20.000Z" itemprop="datePublished">2017-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/05/openssl/">openssl</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Useful-command"><a href="#Useful-command" class="headerlink" title="Useful command"></a>Useful command</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Extract chain</span><br><span class="line">openssl crl2pkcs7 -nocrl -certfile tls_tsp_test_p12.pem | openssl pkcs7 -print_certs -out tls_tsp_test_trustchain.pem</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Extract key</span><br><span class="line">openssl pkey -in tls_tsp_test_p12.pem -out ~/Nextev/message_server/conf/test_tsp/ssl/nmp_server.key</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Extract cert</span><br><span class="line">openssl x509 -in tls_tsp_test_p12.pem -outform pem -out ~/Nextev/message_server/conf/test_tsp/ssl/  nmp_server.crt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Verify client by connect to server</span><br><span class="line">openssl s_client -host localhost -port 10083 -certform PEM -cert tls_lion_cert.pem -keyform PEM -key tls_lion_privKey.pem -CAfile nmp_server_chain.crt</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.sslshopper.com/article-most-common-openssl-commands.html" target="_blank" rel="noopener">https://www.sslshopper.com/article-most-common-openssl-commands.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Android 系统中使用的证书要求是bks格式。</span><br><span class="line">一般来说，我们使用jdk的keytool只能生成jks的证书库，如果生成bks的则需要下载BouncyCastle库。</span><br><span class="line">搜集了各方资料，整理了以下如何将服务端提供的crt格式证书转换成Android上使用的bks证书。</span><br><span class="line"></span><br><span class="line">1 Introduction</span><br><span class="line"></span><br><span class="line">JKS和JCEKS是Java密钥库(KeyStore)的两种比较常见类型，JKS的Provider是SUN，在每个版本的JDK中都有。</span><br><span class="line">BKS来自BouncyCastleProvider，它使用的也是TripleDES来保护密钥库中的Key，它能够防止证书库被不小心修改（Keystore的keyentry改掉1个bit都会产生错误），BKS能够跟JKS互操作。</span><br><span class="line">2 Steps</span><br><span class="line"></span><br><span class="line">要生成bks证书，需要bcprov-ext-jdk15on-151.jar（下载地址）。且将该文件放到Java\jdk1.8.0_20\jre\lib\ext目录下。</span><br><span class="line"></span><br><span class="line">我们的后端同事提供了自签名的服务器证书server.crt，我们需要把这个server.crt转换成Android系统的bks格式证书。使用以下命令行：</span><br><span class="line">keytool -importcert -trustcacerts -keystore e:\key.bks -file e:\server.crt -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider</span><br><span class="line">按照提示重复输入两次密码（在Java的KeyStore对象加载证书时会用到这个密码。），然后就成功将E:\目录下的server.crt转成key.bks证书。</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/05/openssl/" data-id="ck059hv78001kvzom6bbzt8z6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-kafka-add-replica" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/21/kafka-add-replica/" class="article-date">
+  <time datetime="2017-02-21T15:37:34.000Z" itemprop="datePublished">2017-02-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/21/kafka-add-replica/">kafka add replica</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Sometimes it is inevitable we want to change the replicas of an existent topic.</p>
+<p>Here is steps</p>
+<ol>
+<li><p>Create a JSON file named increase-replication-factor.json with the following code:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"partitions"</span>: [&#123;</span><br><span class="line">        <span class="attr">"topic"</span>: <span class="string">"dev_tracer"</span>,</span><br><span class="line">        <span class="attr">"partition"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"replicas"</span>: [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">    &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Run the following command:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 --reassignment-json-file increase-replication-factor.json --execute</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/02/21/kafka-add-replica/" data-id="ck059hv6r000dvzomb1ed3b35" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/">kafka</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jps-cannot-find-pid" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/10/jps-cannot-find-pid/" class="article-date">
+  <time datetime="2016-11-10T15:42:38.000Z" itemprop="datePublished">2016-11-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/10/jps-cannot-find-pid/">jps_cannot_find_pid</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JPS-Cannot-Find-PID"><a href="#JPS-Cannot-Find-PID" class="headerlink" title="JPS Cannot Find PID"></a>JPS Cannot Find PID</h1><p>JPS (Java Process Status) is a very useful to to list all the java process.</p>
+<p>However, it is very common that we cannot list the java process which is actually running. This is because, when java process is running in JVM, it will create a pid file under /tmp/hsperfdata_$(USER)</p>
+<p>Therefore if <code>jps -l</code> doesn’t contains the process id as you expect there would be:</p>
+<ol>
+<li>you don’t call the jps as the user same as java process, so switch to the user.</li>
+<li>your java process tmp file was set to other dir</li>
+</ol>
+<p>For second scenario, I solve my problem. I user systemctl to maintain my java process. In the service file, I define a item as followed:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">PrivateTmp=true</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>This item means that java tmp file will be locate to <code>systemd-private-****-$(service_name)-****</code>, therefore jps cannot locate the pid file.</p>
+<p>after remove this item, everything works.</p>
+<p>Potential Error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ jps 24360</span><br><span class="line">RMI Registry not available at 24360:1099</span><br><span class="line">Exception creating connection to: 24360; nested exception is:</span><br><span class="line">    java.net.SocketException: Invalid argument or cannot assign requested address</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo jstack 24360</span><br><span class="line">24360: Unable to open socket file: target process not responding or HotSpot VM not loaded</span><br><span class="line">The-F option can be used when the target process is not responding</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$ sudo jmap -heap 24360</span><br><span class="line">Attaching to process ID 24360, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 25.102-b14</span><br><span class="line"></span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Parallel GC with 8 thread(s)</span><br><span class="line"></span><br><span class="line">    Heap Configuration:</span><br><span class="line">       MinHeapFreeRatio         = 0</span><br><span class="line">          MaxHeapFreeRatio         = 100</span><br><span class="line">             MaxHeapSize              = 3875536896 (3696.0MB)</span><br><span class="line">       NewSize                  = 80740352 (77.0MB)</span><br><span class="line">       MaxNewSize               = 1291845632 (1232.0MB)</span><br><span class="line">       OldSize                  = 162529280 (155.0MB)</span><br><span class="line">       NewRatio                 = 2</span><br><span class="line">          SurvivorRatio            = 8</span><br><span class="line">             MetaspaceSize            = 21807104 (20.796875MB)</span><br><span class="line">       CompressedClassSpaceSize = 1073741824 (1024.0MB)</span><br><span class="line">       MaxMetaspaceSize         = 17592186044415 MB</span><br><span class="line">          G1HeapRegionSize         = 0 (0.0MB)</span><br><span class="line"></span><br><span class="line">    Heap Usage:</span><br><span class="line">    Exception in thread &quot;main&quot; java.lang.reflect.InvocationTargetException</span><br><span class="line">        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">        at java.lang.reflect.Method.invoke(Method.java:498)</span><br><span class="line">        at sun.tools.jmap.JMap.runTool(JMap.java:201)</span><br><span class="line">        at sun.tools.jmap.JMap.main(JMap.java:130)</span><br><span class="line">    Caused by: java.lang.RuntimeException: unknown CollectedHeap type : class sun.jvm.hotspot.gc_interface.CollectedHeap</span><br><span class="line">        at sun.jvm.hotspot.tools.HeapSummary.run(HeapSummary.java:144)</span><br><span class="line">        at sun.jvm.hotspot.tools.Tool.startInternal(Tool.java:260)</span><br><span class="line">        at sun.jvm.hotspot.tools.Tool.start(Tool.java:223)</span><br><span class="line">        at sun.jvm.hotspot.tools.Tool.execute(Tool.java:118)</span><br><span class="line">        at sun.jvm.hotspot.tools.HeapSummary.main(HeapSummary.java:49)</span><br><span class="line">        ... 6 more</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/10/jps-cannot-find-pid/" data-id="ck059hv6r000cvzomahir80kw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/">jps, hsperfdata, jstack, jmap, jhat, systemctl</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ssl-tsl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/08/ssl-tsl/" class="article-date">
+  <time datetime="2016-07-08T03:56:21.000Z" itemprop="datePublished">2016-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/08/ssl-tsl/">ssl_tsl</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SSL-amp-TSL-原理"><a href="#SSL-amp-TSL-原理" class="headerlink" title="SSL &amp; TSL 原理"></a>SSL &amp; TSL 原理</h1><h2 id="安全通信背景"><a href="#安全通信背景" class="headerlink" title="安全通信背景"></a>安全通信背景</h2><p>在介绍SSL 以及 TSL<br>之前我们必须了解<a href="https://en.wikipedia.org/wiki/Public-key_cryptography" target="_blank" rel="noopener">公钥加密方法</a>。这个方法其实很简单，意思是利用加密算法生成一对钥匙和锁，可以把公钥认为是锁，私钥认为是钥匙。生成了这个工具之后，就可以把锁（公钥）公布出去，其他人利用这个锁将数据进行加密。然后可以传输该加密信息，只有掌握了钥匙（私钥）的一方才能对这些加密的信息进行解密。</p>
+<p>介绍完公钥加密方法之后我们自然有一个疑问，客户端与服务端双方如何通过HTTP请求以及公钥加密算法实现加密通信呢？一个显而易见的想法就是服务端生成公钥和私钥，客户端请求公钥，服务端将公钥交给客户端，客户端拿到这个公钥之后加密数据并传输，服务端收到这个加密数据用私钥解密之后做相应的处理。这一切都显得很美妙，不过存在一个实际问题。这个问题是由公钥算法带来的，一般来说我们为了保证加密算法的安全性，采用的加密算法比较复杂，如果客户端每次都使用公钥加密的话，那么数据通信效率将受到加密算法效率的影响，而且该影响基本肯定是负向的。那么有什么方法解决这个问题呢？</p>
+<p>聪明的前人自然不会让我们失望。如果使用公钥加密算法太复杂，我们可以采用其他加密方式，比如说<a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%A8%B1%E5%AF%86%E9%91%B0%E5%8A%A0%E5%AF%86" target="_blank" rel="noopener">对称加密算法</a>（高效）。</p>
+<p>引入对成加密算法之后也带来新的问题。对成加密算法要求双方都使用相同的密钥进行加密解密。如何保证通信双方能够安全的获取对应的密钥呢？其实答案已经在我们的公钥加密算法中了，对称密钥算法可以解决公钥加密算法的低效，反过来公钥加密算法可以解决对称密钥算法需要传输相同密钥的缺点。因此，两种加密算法正好形成互补。</p>
+<h2 id="SSL-TSL-通信过程"><a href="#SSL-TSL-通信过程" class="headerlink" title="SSL/TSL 通信过程"></a>SSL/TSL 通信过程</h2><p>通过上述的介绍，我们现在来详细解释一下SSL／TSL通信的详细过程，如下所示：</p>
+<ol>
+<li>客户端向服务发起请求，该请求中包含的内容：支持安全协议版本，一个客户端生成的随机数（用于对称加密），支持的加密算法，例如RSA公钥加密，支持的压缩算法。</li>
+<li>服务端收到客户端请求之后，向客户端返回响应，内容包括：确认使用安全协议的版本，一个服务器生成的随机数（同样用于对称加密），确认使用加密算法，服务器证书（就是服务端利用公钥加密算法生成的公钥）<br>3.<br>客户端收到服务的响应之后，向服务端再次发起请求，内容包括：使用服务端提供的证书加密随机数（新的随机数，同样用于对称加密算法），编码改变通知（表示随后的信息都使用双方商定的加密方法和密钥发送，其实就是说使用对称加密算法进行通信），客户端握手结束通知，表示客户端的握手阶段已经结束（这一项同时也是前面发送的所有内容的hash值，用来供服务器校验）。</li>
+<li>服务端最后的响应，包括，编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送），服务器握手结束通知，表示服务器的握手阶段已经结束（这一项同时也是前面发送的所有内容的hash值，用来供客户端校验）。</li>
+</ol>
+<p>此后客户端用对称加密算法对数据进行加密，然后通过http协议向服务端发送加密后的数据。服务端收到加密数据，使用对称加密算法对其进行解密。这一前提是双方都掌握了三个随机数。</p>
+<p>问题来了，为什么要采用三个随机数呢？使用三个随机数的原因是基于服务端不信任客户端能够产生真正的随机数，如果只是伪随机数的话，那么还是有可能被破解。通过服务端生成的随机数，加上客户端的两个随机数，其中一个用公钥加密，能够最大近似真实随机数。利用这个三个随机数导出的对称密钥可以保证安全。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html?20160707190413#comment-last" target="_blank" rel="noopener">SSL/TLS协议运行机制的概述</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="noopener">图解SSL/TLS协议</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%A8%B1%E5%AF%86%E9%91%B0%E5%8A%A0%E5%AF%86" target="_blank" rel="noopener">对称密钥加密</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Public-key_cryptography" target="_blank" rel="noopener">公钥加密</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/07/08/ssl-tsl/" data-id="ck059hv7b001qvzomnlb5puxp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssl-tsl-security-web/">ssl, tsl, security, web</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-java-8-lambda-expression" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/07/java-8-lambda-expression/" class="article-date">
+  <time datetime="2016-07-07T08:14:07.000Z" itemprop="datePublished">2016-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/07/java-8-lambda-expression/">java_8_lamda_expression</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Lambda 表达式是在Java 8中被引入的，而且是Java 8中最大的功能。Lambda表达式促进了函数式编程，同时简化了开发。</p>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>Lambda 表达式具有以下几个语法特征：</p>
+<ul>
+<li>无需声明变量类型 - 编译器能够根据变量的值推断出变量类型。</li>
+<li>无需括号包含参数 - 不需要对单个参数使用括号，但是对于多个参数依然需要使用括号来包含它们。</li>
+<li>无需花括号 － 如果只有一个表达式，那么就不需要使用</li>
+<li>无需使用关键字return － 编译器会自动将只有一行的表达式作为返回值，如果需要使用return则必须要求用花括号将其包含。</li>
+</ul>
+<p>以下是上述语法的一个具体例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8Tester</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line">      Java8Tester tester = <span class="keyword">new</span> Java8Tester();</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//with type declaration</span></span><br><span class="line">      MathOperation addition = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; a + b;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//with out type declaration</span></span><br><span class="line">      MathOperation subtraction = (a, b) -&gt; a - b;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//with return statement along with curly braces</span></span><br><span class="line">      MathOperation multiplication = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; &#123; <span class="keyword">return</span> a * b; &#125;;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//without return statement and without curly braces</span></span><br><span class="line">      MathOperation division = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; a / b;</span><br><span class="line">        </span><br><span class="line">      System.out.println(<span class="string">"10 + 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, addition));</span><br><span class="line">      System.out.println(<span class="string">"10 - 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, subtraction));</span><br><span class="line">      System.out.println(<span class="string">"10 x 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, multiplication));</span><br><span class="line">      System.out.println(<span class="string">"10 / 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, division));</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//with parenthesis</span></span><br><span class="line">      GreetingService greetService1 = message -&gt;</span><br><span class="line">      System.out.println(<span class="string">"Hello "</span> + message);</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//without parenthesis</span></span><br><span class="line">      GreetingService greetService2 = (message) -&gt;</span><br><span class="line">      System.out.println(<span class="string">"Hello "</span> + message);</span><br><span class="line">        </span><br><span class="line">      greetService1.sayMessage(<span class="string">"Mahesh"</span>);</span><br><span class="line">      greetService2.sayMessage(<span class="string">"Suresh"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="class"><span class="keyword">interface</span> <span class="title">MathOperation</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">operation</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="class"><span class="keyword">interface</span> <span class="title">GreetingService</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">sayMessage</span><span class="params">(String message)</span></span>;</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">operate</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, MathOperation mathOperation)</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> mathOperation.operation(a, b);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>验证结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$javac Java8Tester.java</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$java Java8Tester</span><br></pre></td></tr></table></figure>
+<p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">10 + 5 = 15</span><br><span class="line">10 - 5 = 5</span><br><span class="line">10 x 5 = 50</span><br><span class="line">10 / 5 = 2</span><br><span class="line">Hello Mahesh</span><br><span class="line">Hello Suresh</span><br></pre></td></tr></table></figure>
+<p>从上述的例子中我们需要学习到的点</p>
+<ol>
+<li>Lambda 表达式主要用于定义一个函数接口的内部实现。例如，一个接口只有一个方法。在上述的例子中，我们使用各种个样的Lambda 表达式定义MathOperation 接口的操作。然后我们定义了GreetingService中的sayMessage实现。</li>
+<li>有了Lambda表达式之后我们就不再需要匿名类，赋予java强大的函数编程的能力。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/07/07/java-8-lambda-expression/" data-id="ck059hv6p0009vzomvakscnh9" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-8-lambda/">java 8, lambda</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mqtt-protocol" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/30/mqtt-protocol/" class="article-date">
+  <time datetime="2016-06-30T13:12:57.000Z" itemprop="datePublished">2016-06-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/30/mqtt-protocol/">mqtt_protocol</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MQTT-控制包"><a href="#MQTT-控制包" class="headerlink" title="MQTT 控制包"></a>MQTT 控制包</h1><h2 id="CONNECT-客户端连接服务器"><a href="#CONNECT-客户端连接服务器" class="headerlink" title="CONNECT - 客户端连接服务器"></a>CONNECT - 客户端连接服务器</h2><p>在客户端于服务器建立起一个网络连接之后，从客户端想服务端发送的第一个包必须是CONNECT 包。</p>
+<p>一个客户端在一个网络连接中只能发送一次CONNECT 包。服务器。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/30/mqtt-protocol/" data-id="ck059hv6w000ivzom36fm6myt" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mqtt/">mqtt</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-guava-RateLimiter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/28/guava-RateLimiter/" class="article-date">
+  <time datetime="2016-06-28T07:32:58.000Z" itemprop="datePublished">2016-06-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/28/guava-RateLimiter/">guava_RateLimiter</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cmcm.news.meerkat.pns.pns;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.common.util.concurrent.RateLimiter;</span><br><span class="line"><span class="keyword">import</span> org.testng.annotations.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ArrayBlockingQueue;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.BlockingQueue;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RateLimiterTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STOP_FLAG = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> RateLimiter limiter;</span><br><span class="line">        <span class="keyword">private</span> BlockingQueue&lt;Integer&gt; queue;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> workerId;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Worker</span><span class="params">(<span class="keyword">int</span> workerId, RateLimiter limiter, BlockingQueue&lt;Integer&gt; queue)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.workerId = workerId;</span><br><span class="line">            <span class="keyword">this</span>.limiter = limiter;</span><br><span class="line">            <span class="keyword">this</span>.queue = queue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    limiter.acquire();</span><br><span class="line">                    <span class="keyword">int</span> value = <span class="keyword">this</span>.queue.take();</span><br><span class="line">                    <span class="keyword">if</span> (value == STOP_FLAG) &#123;</span><br><span class="line">                        System.out.println(<span class="string">"get stop flag..."</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    System.out.println(<span class="string">"Worker get "</span> + value);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> threadNum = <span class="number">10</span>;</span><br><span class="line">        BlockingQueue&lt;Integer&gt; queue = <span class="keyword">new</span> ArrayBlockingQueue&lt;Integer&gt;(<span class="number">100</span>);</span><br><span class="line">        RateLimiter limiter = RateLimiter.create(<span class="number">50</span>);</span><br><span class="line">        ExecutorService es = Executors.newFixedThreadPool(threadNum);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadNum; ++i) &#123;</span><br><span class="line">            es.submit(<span class="keyword">new</span> Worker(i, limiter, queue));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">            queue.put(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadNum; ++i) &#123;</span><br><span class="line">            queue.put(STOP_FLAG);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty()) &#123;</span><br><span class="line">            Thread.sleep(<span class="number">10</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"cost time: "</span> + (System.currentTimeMillis() - start));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/28/guava-RateLimiter/" data-id="ck059hv6l0004vzomopy3dftd" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/guava-java/">guava, java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm-IR/">algorithm, IR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk-pem/">awk, pem</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-python-pip/">centos, python, pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/g-c-compiler/">g++, c++, compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-java/">guava, java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-8-lambda/">java 8, lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-maven/">java, maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/">jps, hsperfdata, jstack, jmap, jhat, systemctl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log-es-elk/">log, es, elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mqtt/">mqtt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis-qna/">mybatis, qna</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openresty-lua-module/">openresty, lua, module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-pip-library/">python, pip, library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-lua/">redis, lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/">spring-boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-keytool-openssl/">ssl, keytool, openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tls-encrypted-alert/">ssl, tls, encrypted alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tsl-security-web/">ssl, tsl, security, web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tr/">tr</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/algorithm-IR/" style="font-size: 10px;">algorithm, IR</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/awk-pem/" style="font-size: 10px;">awk, pem</a> <a href="/tags/centos-python-pip/" style="font-size: 10px;">centos, python, pip</a> <a href="/tags/g-c-compiler/" style="font-size: 10px;">g++, c++, compiler</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/guava-java/" style="font-size: 10px;">guava, java</a> <a href="/tags/java-8-lambda/" style="font-size: 10px;">java 8, lambda</a> <a href="/tags/java-maven/" style="font-size: 10px;">java, maven</a> <a href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/" style="font-size: 10px;">jps, hsperfdata, jstack, jmap, jhat, systemctl</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/log-es-elk/" style="font-size: 10px;">log, es, elk</a> <a href="/tags/mqtt/" style="font-size: 10px;">mqtt</a> <a href="/tags/mybatis-qna/" style="font-size: 10px;">mybatis, qna</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/openresty-lua-module/" style="font-size: 10px;">openresty, lua, module</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/python-pip-library/" style="font-size: 10px;">python, pip, library</a> <a href="/tags/redis-lua/" style="font-size: 10px;">redis, lua</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/spring-boot/" style="font-size: 10px;">spring-boot</a> <a href="/tags/ssl-keytool-openssl/" style="font-size: 10px;">ssl, keytool, openssl</a> <a href="/tags/ssl-tls-encrypted-alert/" style="font-size: 10px;">ssl, tls, encrypted alert</a> <a href="/tags/ssl-tsl-security-web/" style="font-size: 10px;">ssl, tsl, security, web</a> <a href="/tags/tr/" style="font-size: 10px;">tr</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/04/remove-big-file-from-git-history/">Remove big file from GIT history</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/21/ssl-tls-encrypted-alert/">ssl_tls_encrypted_alert</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/05/spring-boot-qna/">spring_boot_qna</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/22/mybatis-collection-with-only-size-one/">mybatis-collection-with-only-size-one</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/06/compiler/">compiler</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Peace Coder<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

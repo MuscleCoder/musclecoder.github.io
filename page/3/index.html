@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Peace In Mind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Peace In Mind">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="Peace In Mind">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Peace In Mind">
+  
+    <link rel="alternate" href="/atom.xml" title="Peace In Mind" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Peace In Mind</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Go Bigger or Go Home</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-mysql-qna" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/26/mysql-qna/" class="article-date">
+  <time datetime="2016-05-26T08:07:45.000Z" itemprop="datePublished">2016-05-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/26/mysql-qna/">mysql_qna</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="sql-mode"><a href="#sql-mode" class="headerlink" title="sql_mode"></a>sql_mode</h2><h3 id="error"><a href="#error" class="headerlink" title="error"></a>error</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT `id`, GROUP_CONCAT(`user`) AS `user`, SUM(`num`) AS `num` FROM `abc` AS `abc` WHERE `abc`.`status` = &apos;0&apos; GROUP BY id;</span><br><span class="line">ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column &apos;table1.abc.id&apos; which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by</span><br></pre></td></tr></table></figure>
+<h3 id="solution"><a href="#solution" class="headerlink" title="solution"></a>solution</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global sql_mode=&apos;&apos;;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/26/mysql-qna/" data-id="ck059hv77001hvzomzfbb2hys" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-logrotate-usage" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/27/logrotate-usage/" class="article-date">
+  <time datetime="2016-04-27T14:29:05.000Z" itemprop="datePublished">2016-04-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/27/logrotate-usage/">logrotate 用法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在linux 系统管理过程当中，我们经常需要对系统或者服务生成的日志做切分处理（P.S. 我们总不希望日志无限期增长，导致磁盘不足 )。我们当然可以对每个日志写不同的日志切分脚本。可是随着服务的增多，这类相似的需求也越来越多。重复造轮的工作简直就是浪费生命，我们倡导站在巨人的肩膀快速的实现既定的目标。</p>
+<p>前辈们已经早就很好的解决此类需求，这就是logrotate 命令。</p>
+<p>其实logrotate命令就是一个定期的crontab 脚本而已。在centos下，该命令如下所示</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line"></span><br><span class="line">/usr/sbin/logrotate /etc/logrotate.conf &gt;/dev/null 2&gt;&amp;1</span><br><span class="line">EXITVALUE=$?</span><br><span class="line">if [ $EXITVALUE != 0 ]; then</span><br><span class="line">    /usr/bin/logger -t logrotate "ALERT exited abnormally with [$EXITVALUE]"</span><br><span class="line">fi</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+<p>运行的时候会调用<code>/etc/logrotate.conf</code>配置文件，具体信息如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># see &quot;man logrotate&quot; for details</span><br><span class="line"># rotate log files weekly</span><br><span class="line">weekly</span><br><span class="line"></span><br><span class="line"># keep 4 weeks worth of backlogs</span><br><span class="line">rotate 4</span><br><span class="line"></span><br><span class="line"># create new (empty) log files after rotating old ones</span><br><span class="line">create</span><br><span class="line"></span><br><span class="line"># uncomment this if you want your log files compressed</span><br><span class="line">#compress</span><br><span class="line"></span><br><span class="line"># RPM packages drop log rotation information into this directory</span><br><span class="line">include /etc/logrotate.d</span><br><span class="line"></span><br><span class="line"># no packages own wtmp -- we&apos;ll rotate them here</span><br><span class="line">/var/log/wtmp &#123;</span><br><span class="line">    monthly</span><br><span class="line">    minsize 1M</span><br><span class="line">    create 0664 root utmp</span><br><span class="line">    rotate 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># system-specific logs may be also be configured here.</span><br></pre></td></tr></table></figure>
+<p>根据上述的文件内容我们知道，我们只需要配置好<code>配置文件</code>并将该文件放置<code>/etc/logrotate.d</code>目录中，那么每天都会定时的调用logrotate对相应的日志按照配置信息进行切分。<br>这就是logrotate的原理。</p>
+<h2 id="xianxi"><a href="#xianxi" class="headerlink" title="xianxi"></a>xianxi</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://www.linuxcommand.org/man_pages/logrotate8.html" target="_blank" rel="noopener">logroate</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/27/logrotate-usage/" data-id="ck059hv6u000fvzomz9w7cboh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-maven-install-local-jar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/27/maven-install-local-jar/" class="article-date">
+  <time datetime="2016-04-27T12:32:59.000Z" itemprop="datePublished">2016-04-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/27/maven-install-local-jar/">maven 安装本地JAR包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用maven 管理Java 项目中，我们经常会遇到需要将本地Jar包依赖的需求。本文简单介绍一下如何通过maven导入本地jar包</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="安装本地Jar包"><a href="#安装本地Jar包" class="headerlink" title="安装本地Jar包"></a>安装本地Jar包</h3><p>在项目中添加libs/目录并将依赖的jar放到该目录中<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-install-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">id</span>&gt;</span>install-local-jar<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">phase</span>&gt;</span>initialize<span class="tag">&lt;/<span class="name">phase</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">goal</span>&gt;</span>install-file<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.company.proj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>proj_code<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;basedir&#125;/libs/proj_jar_name.jar<span class="tag">&lt;/<span class="name">file</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>同时在dependencies中添加依赖，如下所示</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.xiaomi.miliao<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>xmpush-server-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.4-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn initialize</span><br><span class="line">mvn clean install</span><br></pre></td></tr></table></figure>
+<h3 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h3><p>原理也是很简单的，通过maven-install-plugin 这个插件，利用<code>mvn initialize</code>命令， 可以将本地的jar包安装到本地的repo中~/.m2/repository/…<br>此后，由于项目依赖该jar包，会在本地的repo中查找，找到了就能直接打包进去了。</p>
+<p>是不是很简单？当然还有其他方式能够达到同样的目的，例如直接利用文件路径，但是个人不推荐这样的方式。感兴趣的童鞋可以自己google对比一下吧</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/27/maven-install-local-jar/" data-id="ck059hv6w000jvzomjxldizd0" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java-maven/">java, maven</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-install-python-2-7-10-with-multiversion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/04/19/install-python-2-7-10-with-multiversion/" class="article-date">
+  <time datetime="2016-04-19T12:39:53.000Z" itemprop="datePublished">2016-04-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/19/install-python-2-7-10-with-multiversion/">install_python_2.7.10_with_multiversion</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>if your centos has not install openss-devel, please install it</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install openssl-devel</span><br></pre></td></tr></table></figure>
+<h2 id="Download-Python-2-7-10-Source-Code"><a href="#Download-Python-2-7-10-Source-Code" class="headerlink" title="Download Python 2.7.10 Source Code"></a>Download Python 2.7.10 Source Code</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">wget --no-check-certificate https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tar.xz</span><br><span class="line">sudo wget --no-check-certificate https://www.python.org/ftp/python/2.7.10/Python-2.7.10.tar.xz</span><br><span class="line">sudo tar xf Python-2.7.10.tar.xz</span><br></pre></td></tr></table></figure>
+<h2 id="Compile-Souce-Code"><a href="#Compile-Souce-Code" class="headerlink" title="Compile Souce Code"></a>Compile Souce Code</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd Python-2.7.10</span><br><span class="line">sudo ./configure --prefix=/usr/local</span><br><span class="line">sudo make &amp;&amp; sudo make altinstall</span><br></pre></td></tr></table></figure>
+<p><em>Note: Please pay attendtion to last cmd, we should use altinstall intead of install, or the python2.6 will be replaced by python2.7</em></p>
+<h2 id="Install-pip2-7"><a href="#Install-pip2-7" class="headerlink" title="Install pip2.7"></a>Install pip2.7</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py</span><br><span class="line">sudo /usr/local/bin/python2.7 ez_setup.py</span><br><span class="line">sudo /usr/local/bin/easy_install-2.7 pip</span><br></pre></td></tr></table></figure>
+<h2 id="Install-Python-Module"><a href="#Install-Python-Module" class="headerlink" title="Install Python Module"></a>Install Python Module</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /usr/local/bin/pip2.7 install pykafka</span><br></pre></td></tr></table></figure>
+<h2 id="Install-pip2-6-python-2-6"><a href="#Install-pip2-6-python-2-6" class="headerlink" title="Install pip2.6 (python 2.6)"></a>Install pip2.6 (python 2.6)</h2><p>run as root user</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /tmp</span><br><span class="line">wget &quot;https://bootstrap.pypa.io/get-pip.py&quot;</span><br><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/04/19/install-python-2-7-10-with-multiversion/" data-id="ck059hv6m0005vzomwoi47lj5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/centos-python-pip/">centos, python, pip</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Linux-字符串替换合集" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/29/Linux-字符串替换合集/" class="article-date">
+  <time datetime="2016-03-29T12:46:03.000Z" itemprop="datePublished">2016-03-29</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/29/Linux-字符串替换合集/">Linux 字符串替换合集</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>sed</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ILLEGAL_CHARS=$(python -c 'print u"\u3000".encode("utf8")')</span><br><span class="line">sed 's/['"$&#123;ILLEGAL_CHARS&#125;"']//g' $file_name</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/29/Linux-字符串替换合集/" data-id="ck059hv6b0000vzom15c8maye" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/awk/">awk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/grep/">grep</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sed/">sed</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tr/">tr</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-wand-introduction" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/03/16/wand-introduction/" class="article-date">
+  <time datetime="2016-03-15T16:11:05.000Z" itemprop="datePublished">2016-03-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/16/wand-introduction/">WAND 算法简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在介绍WAND算法之前，我们来看一下传统的搜索是怎么做的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/03/16/wand-introduction/" data-id="ck059hv7d001uvzom6kfnlx40" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm-IR/">algorithm, IR</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm-IR/">algorithm, IR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk-pem/">awk, pem</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-python-pip/">centos, python, pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/g-c-compiler/">g++, c++, compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-java/">guava, java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-8-lambda/">java 8, lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-maven/">java, maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/">jps, hsperfdata, jstack, jmap, jhat, systemctl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log-es-elk/">log, es, elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mqtt/">mqtt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis-qna/">mybatis, qna</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openresty-lua-module/">openresty, lua, module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-pip-library/">python, pip, library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-lua/">redis, lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/">spring-boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-keytool-openssl/">ssl, keytool, openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tls-encrypted-alert/">ssl, tls, encrypted alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tsl-security-web/">ssl, tsl, security, web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tr/">tr</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/algorithm-IR/" style="font-size: 10px;">algorithm, IR</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/awk-pem/" style="font-size: 10px;">awk, pem</a> <a href="/tags/centos-python-pip/" style="font-size: 10px;">centos, python, pip</a> <a href="/tags/g-c-compiler/" style="font-size: 10px;">g++, c++, compiler</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/guava-java/" style="font-size: 10px;">guava, java</a> <a href="/tags/java-8-lambda/" style="font-size: 10px;">java 8, lambda</a> <a href="/tags/java-maven/" style="font-size: 10px;">java, maven</a> <a href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/" style="font-size: 10px;">jps, hsperfdata, jstack, jmap, jhat, systemctl</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/log-es-elk/" style="font-size: 10px;">log, es, elk</a> <a href="/tags/mqtt/" style="font-size: 10px;">mqtt</a> <a href="/tags/mybatis-qna/" style="font-size: 10px;">mybatis, qna</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/openresty-lua-module/" style="font-size: 10px;">openresty, lua, module</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/python-pip-library/" style="font-size: 10px;">python, pip, library</a> <a href="/tags/redis-lua/" style="font-size: 10px;">redis, lua</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/spring-boot/" style="font-size: 10px;">spring-boot</a> <a href="/tags/ssl-keytool-openssl/" style="font-size: 10px;">ssl, keytool, openssl</a> <a href="/tags/ssl-tls-encrypted-alert/" style="font-size: 10px;">ssl, tls, encrypted alert</a> <a href="/tags/ssl-tsl-security-web/" style="font-size: 10px;">ssl, tsl, security, web</a> <a href="/tags/tr/" style="font-size: 10px;">tr</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/04/remove-big-file-from-git-history/">Remove big file from GIT history</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/21/ssl-tls-encrypted-alert/">ssl_tls_encrypted_alert</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/05/spring-boot-qna/">spring_boot_qna</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/22/mybatis-collection-with-only-size-one/">mybatis-collection-with-only-size-one</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/06/compiler/">compiler</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Peace Coder<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

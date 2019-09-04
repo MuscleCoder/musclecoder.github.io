@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>openssl | Peace In Mind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Useful command1234567891011# Extract chainopenssl crl2pkcs7 -nocrl -certfile tls_tsp_test_p12.pem | openssl pkcs7 -print_certs -out tls_tsp_test_trustchain.pem# Extract keyopenssl pkey -in tls_tsp_tes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openssl">
+<meta property="og:url" content="http://yoursite.com/2017/03/05/openssl/index.html">
+<meta property="og:site_name" content="Peace In Mind">
+<meta property="og:description" content="Useful command1234567891011# Extract chainopenssl crl2pkcs7 -nocrl -certfile tls_tsp_test_p12.pem | openssl pkcs7 -print_certs -out tls_tsp_test_trustchain.pem# Extract keyopenssl pkey -in tls_tsp_tes">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:updated_time" content="2019-09-04T12:02:00.763Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="openssl">
+<meta name="twitter:description" content="Useful command1234567891011# Extract chainopenssl crl2pkcs7 -nocrl -certfile tls_tsp_test_p12.pem | openssl pkcs7 -print_certs -out tls_tsp_test_trustchain.pem# Extract keyopenssl pkey -in tls_tsp_tes">
+  
+    <link rel="alternate" href="/atom.xml" title="Peace In Mind" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Peace In Mind</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Go Bigger or Go Home</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-openssl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/05/openssl/" class="article-date">
+  <time datetime="2017-03-05T14:54:20.000Z" itemprop="datePublished">2017-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      openssl
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Useful-command"><a href="#Useful-command" class="headerlink" title="Useful command"></a>Useful command</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Extract chain</span><br><span class="line">openssl crl2pkcs7 -nocrl -certfile tls_tsp_test_p12.pem | openssl pkcs7 -print_certs -out tls_tsp_test_trustchain.pem</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Extract key</span><br><span class="line">openssl pkey -in tls_tsp_test_p12.pem -out ~/Nextev/message_server/conf/test_tsp/ssl/nmp_server.key</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Extract cert</span><br><span class="line">openssl x509 -in tls_tsp_test_p12.pem -outform pem -out ~/Nextev/message_server/conf/test_tsp/ssl/  nmp_server.crt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Verify client by connect to server</span><br><span class="line">openssl s_client -host localhost -port 10083 -certform PEM -cert tls_lion_cert.pem -keyform PEM -key tls_lion_privKey.pem -CAfile nmp_server_chain.crt</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.sslshopper.com/article-most-common-openssl-commands.html" target="_blank" rel="noopener">https://www.sslshopper.com/article-most-common-openssl-commands.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Android 系统中使用的证书要求是bks格式。</span><br><span class="line">一般来说，我们使用jdk的keytool只能生成jks的证书库，如果生成bks的则需要下载BouncyCastle库。</span><br><span class="line">搜集了各方资料，整理了以下如何将服务端提供的crt格式证书转换成Android上使用的bks证书。</span><br><span class="line"></span><br><span class="line">1 Introduction</span><br><span class="line"></span><br><span class="line">JKS和JCEKS是Java密钥库(KeyStore)的两种比较常见类型，JKS的Provider是SUN，在每个版本的JDK中都有。</span><br><span class="line">BKS来自BouncyCastleProvider，它使用的也是TripleDES来保护密钥库中的Key，它能够防止证书库被不小心修改（Keystore的keyentry改掉1个bit都会产生错误），BKS能够跟JKS互操作。</span><br><span class="line">2 Steps</span><br><span class="line"></span><br><span class="line">要生成bks证书，需要bcprov-ext-jdk15on-151.jar（下载地址）。且将该文件放到Java\jdk1.8.0_20\jre\lib\ext目录下。</span><br><span class="line"></span><br><span class="line">我们的后端同事提供了自签名的服务器证书server.crt，我们需要把这个server.crt转换成Android系统的bks格式证书。使用以下命令行：</span><br><span class="line">keytool -importcert -trustcacerts -keystore e:\key.bks -file e:\server.crt -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider</span><br><span class="line">按照提示重复输入两次密码（在Java的KeyStore对象加载证书时会用到这个密码。），然后就成功将E:\目录下的server.crt转成key.bks证书。</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/05/openssl/" data-id="ck059hv78001kvzom6bbzt8z6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/19/install-m2crypto/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          install_m2crypto
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/21/kafka-add-replica/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">kafka add replica</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm-IR/">algorithm, IR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk-pem/">awk, pem</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-python-pip/">centos, python, pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/g-c-compiler/">g++, c++, compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-java/">guava, java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-8-lambda/">java 8, lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-maven/">java, maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/">jps, hsperfdata, jstack, jmap, jhat, systemctl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log-es-elk/">log, es, elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mqtt/">mqtt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis-qna/">mybatis, qna</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openresty-lua-module/">openresty, lua, module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-pip-library/">python, pip, library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-lua/">redis, lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/">spring-boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-keytool-openssl/">ssl, keytool, openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tls-encrypted-alert/">ssl, tls, encrypted alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tsl-security-web/">ssl, tsl, security, web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tr/">tr</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/algorithm-IR/" style="font-size: 10px;">algorithm, IR</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/awk-pem/" style="font-size: 10px;">awk, pem</a> <a href="/tags/centos-python-pip/" style="font-size: 10px;">centos, python, pip</a> <a href="/tags/g-c-compiler/" style="font-size: 10px;">g++, c++, compiler</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/guava-java/" style="font-size: 10px;">guava, java</a> <a href="/tags/java-8-lambda/" style="font-size: 10px;">java 8, lambda</a> <a href="/tags/java-maven/" style="font-size: 10px;">java, maven</a> <a href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/" style="font-size: 10px;">jps, hsperfdata, jstack, jmap, jhat, systemctl</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/log-es-elk/" style="font-size: 10px;">log, es, elk</a> <a href="/tags/mqtt/" style="font-size: 10px;">mqtt</a> <a href="/tags/mybatis-qna/" style="font-size: 10px;">mybatis, qna</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/openresty-lua-module/" style="font-size: 10px;">openresty, lua, module</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/python-pip-library/" style="font-size: 10px;">python, pip, library</a> <a href="/tags/redis-lua/" style="font-size: 10px;">redis, lua</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/spring-boot/" style="font-size: 10px;">spring-boot</a> <a href="/tags/ssl-keytool-openssl/" style="font-size: 10px;">ssl, keytool, openssl</a> <a href="/tags/ssl-tls-encrypted-alert/" style="font-size: 10px;">ssl, tls, encrypted alert</a> <a href="/tags/ssl-tsl-security-web/" style="font-size: 10px;">ssl, tsl, security, web</a> <a href="/tags/tr/" style="font-size: 10px;">tr</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/04/remove-big-file-from-git-history/">Remove big file from GIT history</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/21/ssl-tls-encrypted-alert/">ssl_tls_encrypted_alert</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/05/spring-boot-qna/">spring_boot_qna</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/22/mybatis-collection-with-only-size-one/">mybatis-collection-with-only-size-one</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/06/compiler/">compiler</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Peace Coder<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

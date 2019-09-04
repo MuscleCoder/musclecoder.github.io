@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>ssl_tsl | Peace In Mind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SSL &amp;amp; TSL 原理安全通信背景在介绍SSL 以及 TSL之前我们必须了解公钥加密方法。这个方法其实很简单，意思是利用加密算法生成一对钥匙和锁，可以把公钥认为是锁，私钥认为是钥匙。生成了这个工具之后，就可以把锁（公钥）公布出去，其他人利用这个锁将数据进行加密。然后可以传输该加密信息，只有掌握了钥匙（私钥）的一方才能对这些加密的信息进行解密。 介绍完公钥加密方法之后我们自然有一个疑问，客">
+<meta name="keywords" content="ssl, tsl, security, web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ssl_tsl">
+<meta property="og:url" content="http://yoursite.com/2016/07/08/ssl-tsl/index.html">
+<meta property="og:site_name" content="Peace In Mind">
+<meta property="og:description" content="SSL &amp;amp; TSL 原理安全通信背景在介绍SSL 以及 TSL之前我们必须了解公钥加密方法。这个方法其实很简单，意思是利用加密算法生成一对钥匙和锁，可以把公钥认为是锁，私钥认为是钥匙。生成了这个工具之后，就可以把锁（公钥）公布出去，其他人利用这个锁将数据进行加密。然后可以传输该加密信息，只有掌握了钥匙（私钥）的一方才能对这些加密的信息进行解密。 介绍完公钥加密方法之后我们自然有一个疑问，客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:updated_time" content="2019-09-04T12:02:00.765Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ssl_tsl">
+<meta name="twitter:description" content="SSL &amp;amp; TSL 原理安全通信背景在介绍SSL 以及 TSL之前我们必须了解公钥加密方法。这个方法其实很简单，意思是利用加密算法生成一对钥匙和锁，可以把公钥认为是锁，私钥认为是钥匙。生成了这个工具之后，就可以把锁（公钥）公布出去，其他人利用这个锁将数据进行加密。然后可以传输该加密信息，只有掌握了钥匙（私钥）的一方才能对这些加密的信息进行解密。 介绍完公钥加密方法之后我们自然有一个疑问，客">
+  
+    <link rel="alternate" href="/atom.xml" title="Peace In Mind" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Peace In Mind</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Go Bigger or Go Home</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ssl-tsl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/08/ssl-tsl/" class="article-date">
+  <time datetime="2016-07-08T03:56:21.000Z" itemprop="datePublished">2016-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ssl_tsl
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SSL-amp-TSL-原理"><a href="#SSL-amp-TSL-原理" class="headerlink" title="SSL &amp; TSL 原理"></a>SSL &amp; TSL 原理</h1><h2 id="安全通信背景"><a href="#安全通信背景" class="headerlink" title="安全通信背景"></a>安全通信背景</h2><p>在介绍SSL 以及 TSL<br>之前我们必须了解<a href="https://en.wikipedia.org/wiki/Public-key_cryptography" target="_blank" rel="noopener">公钥加密方法</a>。这个方法其实很简单，意思是利用加密算法生成一对钥匙和锁，可以把公钥认为是锁，私钥认为是钥匙。生成了这个工具之后，就可以把锁（公钥）公布出去，其他人利用这个锁将数据进行加密。然后可以传输该加密信息，只有掌握了钥匙（私钥）的一方才能对这些加密的信息进行解密。</p>
+<p>介绍完公钥加密方法之后我们自然有一个疑问，客户端与服务端双方如何通过HTTP请求以及公钥加密算法实现加密通信呢？一个显而易见的想法就是服务端生成公钥和私钥，客户端请求公钥，服务端将公钥交给客户端，客户端拿到这个公钥之后加密数据并传输，服务端收到这个加密数据用私钥解密之后做相应的处理。这一切都显得很美妙，不过存在一个实际问题。这个问题是由公钥算法带来的，一般来说我们为了保证加密算法的安全性，采用的加密算法比较复杂，如果客户端每次都使用公钥加密的话，那么数据通信效率将受到加密算法效率的影响，而且该影响基本肯定是负向的。那么有什么方法解决这个问题呢？</p>
+<p>聪明的前人自然不会让我们失望。如果使用公钥加密算法太复杂，我们可以采用其他加密方式，比如说<a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%A8%B1%E5%AF%86%E9%91%B0%E5%8A%A0%E5%AF%86" target="_blank" rel="noopener">对称加密算法</a>（高效）。</p>
+<p>引入对成加密算法之后也带来新的问题。对成加密算法要求双方都使用相同的密钥进行加密解密。如何保证通信双方能够安全的获取对应的密钥呢？其实答案已经在我们的公钥加密算法中了，对称密钥算法可以解决公钥加密算法的低效，反过来公钥加密算法可以解决对称密钥算法需要传输相同密钥的缺点。因此，两种加密算法正好形成互补。</p>
+<h2 id="SSL-TSL-通信过程"><a href="#SSL-TSL-通信过程" class="headerlink" title="SSL/TSL 通信过程"></a>SSL/TSL 通信过程</h2><p>通过上述的介绍，我们现在来详细解释一下SSL／TSL通信的详细过程，如下所示：</p>
+<ol>
+<li>客户端向服务发起请求，该请求中包含的内容：支持安全协议版本，一个客户端生成的随机数（用于对称加密），支持的加密算法，例如RSA公钥加密，支持的压缩算法。</li>
+<li>服务端收到客户端请求之后，向客户端返回响应，内容包括：确认使用安全协议的版本，一个服务器生成的随机数（同样用于对称加密），确认使用加密算法，服务器证书（就是服务端利用公钥加密算法生成的公钥）<br>3.<br>客户端收到服务的响应之后，向服务端再次发起请求，内容包括：使用服务端提供的证书加密随机数（新的随机数，同样用于对称加密算法），编码改变通知（表示随后的信息都使用双方商定的加密方法和密钥发送，其实就是说使用对称加密算法进行通信），客户端握手结束通知，表示客户端的握手阶段已经结束（这一项同时也是前面发送的所有内容的hash值，用来供服务器校验）。</li>
+<li>服务端最后的响应，包括，编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送），服务器握手结束通知，表示服务器的握手阶段已经结束（这一项同时也是前面发送的所有内容的hash值，用来供客户端校验）。</li>
+</ol>
+<p>此后客户端用对称加密算法对数据进行加密，然后通过http协议向服务端发送加密后的数据。服务端收到加密数据，使用对称加密算法对其进行解密。这一前提是双方都掌握了三个随机数。</p>
+<p>问题来了，为什么要采用三个随机数呢？使用三个随机数的原因是基于服务端不信任客户端能够产生真正的随机数，如果只是伪随机数的话，那么还是有可能被破解。通过服务端生成的随机数，加上客户端的两个随机数，其中一个用公钥加密，能够最大近似真实随机数。利用这个三个随机数导出的对称密钥可以保证安全。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html?20160707190413#comment-last" target="_blank" rel="noopener">SSL/TLS协议运行机制的概述</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="noopener">图解SSL/TLS协议</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%A8%B1%E5%AF%86%E9%91%B0%E5%8A%A0%E5%AF%86" target="_blank" rel="noopener">对称密钥加密</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Public-key_cryptography" target="_blank" rel="noopener">公钥加密</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/07/08/ssl-tsl/" data-id="ck059hv7b001qvzomnlb5puxp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssl-tsl-security-web/">ssl, tsl, security, web</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/10/jps-cannot-find-pid/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          jps_cannot_find_pid
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/07/07/java-8-lambda-expression/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">java_8_lamda_expression</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm-IR/">algorithm, IR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk-pem/">awk, pem</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-python-pip/">centos, python, pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/g-c-compiler/">g++, c++, compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-java/">guava, java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-8-lambda/">java 8, lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-maven/">java, maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/">jps, hsperfdata, jstack, jmap, jhat, systemctl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log-es-elk/">log, es, elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mqtt/">mqtt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis-qna/">mybatis, qna</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openresty-lua-module/">openresty, lua, module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-pip-library/">python, pip, library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-lua/">redis, lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/">spring-boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-keytool-openssl/">ssl, keytool, openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tls-encrypted-alert/">ssl, tls, encrypted alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tsl-security-web/">ssl, tsl, security, web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tr/">tr</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/algorithm-IR/" style="font-size: 10px;">algorithm, IR</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/awk-pem/" style="font-size: 10px;">awk, pem</a> <a href="/tags/centos-python-pip/" style="font-size: 10px;">centos, python, pip</a> <a href="/tags/g-c-compiler/" style="font-size: 10px;">g++, c++, compiler</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/guava-java/" style="font-size: 10px;">guava, java</a> <a href="/tags/java-8-lambda/" style="font-size: 10px;">java 8, lambda</a> <a href="/tags/java-maven/" style="font-size: 10px;">java, maven</a> <a href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/" style="font-size: 10px;">jps, hsperfdata, jstack, jmap, jhat, systemctl</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/log-es-elk/" style="font-size: 10px;">log, es, elk</a> <a href="/tags/mqtt/" style="font-size: 10px;">mqtt</a> <a href="/tags/mybatis-qna/" style="font-size: 10px;">mybatis, qna</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/openresty-lua-module/" style="font-size: 10px;">openresty, lua, module</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/python-pip-library/" style="font-size: 10px;">python, pip, library</a> <a href="/tags/redis-lua/" style="font-size: 10px;">redis, lua</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/spring-boot/" style="font-size: 10px;">spring-boot</a> <a href="/tags/ssl-keytool-openssl/" style="font-size: 10px;">ssl, keytool, openssl</a> <a href="/tags/ssl-tls-encrypted-alert/" style="font-size: 10px;">ssl, tls, encrypted alert</a> <a href="/tags/ssl-tsl-security-web/" style="font-size: 10px;">ssl, tsl, security, web</a> <a href="/tags/tr/" style="font-size: 10px;">tr</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/04/remove-big-file-from-git-history/">Remove big file from GIT history</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/21/ssl-tls-encrypted-alert/">ssl_tls_encrypted_alert</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/05/spring-boot-qna/">spring_boot_qna</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/22/mybatis-collection-with-only-size-one/">mybatis-collection-with-only-size-one</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/06/compiler/">compiler</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Peace Coder<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

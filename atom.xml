@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Peace In Mind</title>
+  <icon>https://www.gravatar.com/avatar/3253eba0ad844c4e07781cad05b70f45</icon>
+  <subtitle>Go Bigger or Go Home</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-09-04T12:38:12.677Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>Peace Coder</name>
+    <email>codemuscler@gmail.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Remove big file from GIT history</title>
+    <link href="http://yoursite.com/2019/09/04/remove-big-file-from-git-history/"/>
+    <id>http://yoursite.com/2019/09/04/remove-big-file-from-git-history/</id>
+    <published>2019-09-04T12:23:22.000Z</published>
+    <updated>2019-09-04T12:38:12.677Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sometime, a developer will commit unexpected big file, like tar/bin/zip files, to git and then commit.<br>This action will increase the git history size and slow down the pull the repo. Even he/she realize it and remove the big file, the file still remains in the history.</p><p>The most obvious evidence is your git repo size will increase dramatically, end up with big .git/objects/packs</p><p>In this article will help you out of there.</p><h2 id="Find-unexpected-files"><a href="#Find-unexpected-files" class="headerlink" title="Find unexpected files"></a>Find unexpected files</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line"><span class="meta">#</span>set -x</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Shows you the largest objects in your repo's pack file.</span><br><span class="line"><span class="meta">#</span> Written for osx.</span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span> @see https://stubbisms.wordpress.com/2009/07/10/git-script-to-show-largest-pack-objects-and-trim-your-waist-line/</span><br><span class="line"><span class="meta">#</span> @author Antony Stubbs</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> set the internal field separator to line break, so that we can iterate easily over the verify-pack output</span><br><span class="line">IFS=$'\n';</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> list all objects including their size, sort by size, take top 10</span><br><span class="line">objects=`git verify-pack -v .git/objects/pack/pack-*.idx | grep -v chain | sort -k3nr | head`</span><br><span class="line"></span><br><span class="line">echo "All sizes are in kB's. The pack column is the size of the object, compressed, inside the pack file."</span><br><span class="line"></span><br><span class="line">output="size,pack,SHA,location"</span><br><span class="line">allObjects=`git rev-list --all --objects`</span><br><span class="line">for y in $objects</span><br><span class="line">do</span><br><span class="line">    # extract the size in bytes</span><br><span class="line">    size=$((`echo $y | cut -f 5 -d ' '`/1024))</span><br><span class="line">    # extract the compressed size in bytes</span><br><span class="line">    compressedSize=$((`echo $y | cut -f 6 -d ' '`/1024))</span><br><span class="line">    # extract the SHA</span><br><span class="line">    sha=`echo $y | cut -f 1 -d ' '`</span><br><span class="line">    # find the objects location in the repository tree</span><br><span class="line">    other=`echo "$&#123;allObjects&#125;" | grep $sha`</span><br><span class="line">    #lineBreak=`echo -e "\n"`</span><br><span class="line">    output="$&#123;output&#125;\n$&#123;size&#125;,$&#123;compressedSize&#125;,$&#123;other&#125;"</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo -e $output | column -t -s ', '</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">You can refer the script from [here](https://stackoverflow.com/questions/10622179/how-to-find-identify-large-commits-in-git-history/10622293#10622293?newreg=b5b6df7efaa94f0ca589173a4cab8890)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span># Find the file in the commit</span><br><span class="line"></span><br><span class="line">after you find the largest file in the history, you may want to know which commit brought such file.</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line"><span class="meta">#</span>!/bin/sh</span><br><span class="line">obj_name="$1"</span><br><span class="line">shift</span><br><span class="line">git log "$@" --pretty=format:'%T %h %s' \</span><br><span class="line">| while read tree commit subject ; do</span><br><span class="line">    if git ls-tree -r $tree | grep -q "$obj_name" ; then</span><br><span class="line">        echo $commit "$subject"</span><br><span class="line">    fi</span><br><span class="line">done</span><br></pre></td></tr></table></figure><h2 id="Remove-big-file-from-history"><a href="#Remove-big-file-from-history" class="headerlink" title="Remove big file from history"></a>Remove big file from history</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git filter-branch -f --tree-filter 'rm -f $&#123;replace_with_big_file_name&#125;' HEAD</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Sometime, a developer will commit unexpected big file, like tar/bin/zip files, to git and then commit.&lt;br&gt;This action will increase the g
+      
+    
+    </summary>
+    
+    
+    
+      <category term="git" scheme="http://yoursite.com/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ssl_tls_encrypted_alert</title>
+    <link href="http://yoursite.com/2018/06/21/ssl-tls-encrypted-alert/"/>
+    <id>http://yoursite.com/2018/06/21/ssl-tls-encrypted-alert/</id>
+    <published>2018-06-21T11:15:42.000Z</published>
+    <updated>2019-09-04T12:02:00.765Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h1><p>We establish mqtt connection between client and broker, and client will pulish a lot of messages. Howerver our client developer find a very strange problem that if the publish load increase, sometimes the client will lost connection, or even worse crash!!!</p><p>Then we try to dig deeper and find the root cause from both client and broker view. We use <a href="https://github.com/eclipse/mosquitto" target="_blank" rel="noopener">mosquitto client</a>. And we use netty to build mqtt broker.</p><h2 id="Client’s-Problems"><a href="#Client’s-Problems" class="headerlink" title="Client’s Problems"></a>Client’s Problems</h2><p>We use tcpdump to find if any abnormal tcp packet exists.</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tcpdump -i eth0 tcp port 20083 -w ./eth0_$(date +"%Y%m%d_%H%M%S").pcap</span><br></pre></td></tr></table></figure><p><img src="content/images/2018/06/ws_client_error_1.jpeg" alt="ws_client_error_1"></p><p>From the blue retangle we can find that, after client send Encrypted Alert, an FINACK as follow.<br>Recently, our client develop we found a very strange SSLException: Tag unmatch!</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"@timestamp"</span>: <span class="string">"2018-06-21T13:57:12.023+08:00"</span>,</span><br><span class="line">    <span class="attr">"@version"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"level"</span>: <span class="string">"ERROR"</span>,</span><br><span class="line">    <span class="attr">"level_value"</span>: <span class="number">40000</span>,</span><br><span class="line">    <span class="attr">"message"</span>: <span class="string">"Other error: javax.net.ssl.SSLException: Tag mismatch!"</span>,</span><br><span class="line">    <span class="attr">"thread_name"</span>: <span class="string">"nioEventLoopGroup-3-2"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol><li><a href="https://blog.csdn.net/zhubaitian/article/details/43816167" target="_blank" rel="noopener">一个最简单的破解SSL加密网络数据包的方法</a></li><li><a href="https://blog.csdn.net/gufachongyang02/article/details/52154124" target="_blank" rel="noopener">SSL/TLS的bad record MAC问题排查</a></li><li><a href="https://blog.csdn.net/gufachongyang02/article/details/52166285" target="_blank" rel="noopener">wireshark解密用临时秘钥加密的ssl/tls数据包</a></li><li><a href="https://en.wikipedia.org/wiki/Transport_Layer_Security#Alert_protocol" target="_blank" rel="noopener">Alert Protocol</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Background&quot;&gt;&lt;a href=&quot;#Background&quot; class=&quot;headerlink&quot; title=&quot;Background&quot;&gt;&lt;/a&gt;Background&lt;/h1&gt;&lt;p&gt;We establish mqtt connection between c
+      
+    
+    </summary>
+    
+    
+    
+      <category term="ssl, tls, encrypted alert" scheme="http://yoursite.com/tags/ssl-tls-encrypted-alert/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring_boot_qna</title>
+    <link href="http://yoursite.com/2018/06/05/spring-boot-qna/"/>
+    <id>http://yoursite.com/2018/06/05/spring-boot-qna/</id>
+    <published>2018-06-05T10:07:08.000Z</published>
+    <updated>2019-09-04T12:54:00.356Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li>IDEA 提示 Spring Boot Annotion processor not found in classpath 解决办法</li></ol><p>solution: </p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-configuration-processor<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">optional</span>&gt;</span>true<span class="tag">&lt;/<span class="name">optional</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure><p>reference:</p><ul><li><a href="https://blog.csdn.net/HeatDeath/article/details/79839829" target="_blank" rel="noopener">https://blog.csdn.net/HeatDeath/article/details/79839829</a></li><li><a href="https://blog.csdn.net/lom9357bye/article/details/77458797" target="_blank" rel="noopener">https://blog.csdn.net/lom9357bye/article/details/77458797</a></li><li><a href="https://blog.csdn.net/u011659172/article/details/51274345" target="_blank" rel="noopener">https://blog.csdn.net/u011659172/article/details/51274345</a></li><li><a href="http://www.baeldung.com/properties-with-spring" target="_blank" rel="noopener">http://www.baeldung.com/properties-with-spring</a></li><li><a href="https://www.cnblogs.com/sprinng/p/5622600.html" target="_blank" rel="noopener">https://www.cnblogs.com/sprinng/p/5622600.html</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;IDEA 提示 Spring Boot Annotion processor not found in classpath 解决办法&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;solution: &lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;tabl
+      
+    
+    </summary>
+    
+    
+    
+      <category term="spring-boot" scheme="http://yoursite.com/tags/spring-boot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mybatis-collection-with-only-size-one</title>
+    <link href="http://yoursite.com/2018/04/22/mybatis-collection-with-only-size-one/"/>
+    <id>http://yoursite.com/2018/04/22/mybatis-collection-with-only-size-one/</id>
+    <published>2018-04-21T16:02:29.000Z</published>
+    <updated>2019-09-04T12:02:00.762Z</updated>
+    
+    <content type="html"><![CDATA[<p>Table A<br>| id | a_1 | a_2|<br>|—|—|—|<br>|1  | aaa | bbb|</p><p>Table B<br>| id | a_id | b_1 | b_2|<br>|—|—|—|—|<br>| 1  | 1 | ccc| ddd|<br>| 2  | 1 | eee| fff|</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"fileInfo"</span> <span class="attr">type</span>=<span class="string">"com.phynx.fuds.beans.dto.FileInfo"</span> <span class="attr">autoMapping</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">"id"</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">jdbcType</span>=<span class="string">"BIGINT"</span> <span class="attr">javaType</span>=<span class="string">"java.lang.Long"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"a_1"</span> <span class="attr">property</span>=<span class="string">"a1"</span> <span class="attr">jdbcType</span>=<span class="string">"VARCHAR"</span> <span class="attr">javaType</span>=<span class="string">"java.lang.String"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"a_2"</span> <span class="attr">property</span>=<span class="string">"a2"</span> <span class="attr">jdbcType</span>=<span class="string">"VARCHAR"</span> <span class="attr">javaType</span>=<span class="string">"java.lang.String"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">collection</span> <span class="attr">property</span>=<span class="string">"chunks"</span> <span class="attr">ofType</span>=<span class="string">"com.phynx.fuds.beans.dto.FileChunk"</span> <span class="attr">javaType</span>=<span class="string">"java.util.ArrayList"</span> <span class="attr">autoMapping</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">"id"</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">jdbcType</span>=<span class="string">"BIGINT"</span> <span class="attr">javaType</span>=<span class="string">"java.lang.Long"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"a_id"</span> <span class="attr">property</span>=<span class="string">"fileKey"</span> <span class="attr">jdbcType</span>=<span class="string">"BIGINT"</span> <span class="attr">javaType</span>=<span class="string">"java.lang.Long"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"b_1"</span> <span class="attr">property</span>=<span class="string">"a1"</span> <span class="attr">jdbcType</span>=<span class="string">"VARCHAR"</span> <span class="attr">javaType</span>=<span class="string">"java.lang.String"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"b_2"</span> <span class="attr">property</span>=<span class="string">"a2"</span> <span class="attr">jdbcType</span>=<span class="string">"VARCHAR"</span> <span class="attr">javaType</span>=<span class="string">"java.lang.String"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">collection</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"getDetail"</span> <span class="attr">resultMap</span>=<span class="string">"fileInfo"</span>&gt;</span></span><br><span class="line">    SELECT a.id, a.a_1, a.a_2, b.a_id, b.b_1, b.b_2</span><br><span class="line">    FROM a, b</span><br><span class="line">    WHERE a.id=b.a_id</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure><p>The result only contains a collection with size 1.</p><p>After check this is because I miss to config b.id as bid, and then the a.id is regard as the id of table B.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Table A&lt;br&gt;| id | a_1 | a_2|&lt;br&gt;|—|—|—|&lt;br&gt;|1  | aaa | bbb|&lt;/p&gt;
+&lt;p&gt;Table B&lt;br&gt;| id | a_id | b_1 | b_2|&lt;br&gt;|—|—|—|—|&lt;br&gt;| 1  | 1 | ccc| dd
+      
+    
+    </summary>
+    
+    
+    
+      <category term="mybatis, qna" scheme="http://yoursite.com/tags/mybatis-qna/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>compiler</title>
+    <link href="http://yoursite.com/2017/12/06/compiler/"/>
+    <id>http://yoursite.com/2017/12/06/compiler/</id>
+    <published>2017-12-06T14:19:34.000Z</published>
+    <updated>2019-09-04T12:02:00.758Z</updated>
+    
+    <content type="html"><![CDATA[<p>G++ in mac cannot find ssl.h</p><p>and then setting the CPPFLAGS and LDFLAGS to point to the openssl lib from brew<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export CPPFLAGS=-I/usr/local/opt/openssl/include</span><br><span class="line">export LDFLAGS=-L/usr/local/opt/openssl/lib</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;G++ in mac cannot find ssl.h&lt;/p&gt;
+&lt;p&gt;and then setting the CPPFLAGS and LDFLAGS to point to the openssl lib from brew&lt;br&gt;&lt;figure class=&quot;hig
+      
+    
+    </summary>
+    
+    
+    
+      <category term="g++, c++, compiler" scheme="http://yoursite.com/tags/g-c-compiler/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis</title>
+    <link href="http://yoursite.com/2017/11/13/redis/"/>
+    <id>http://yoursite.com/2017/11/13/redis/</id>
+    <published>2017-11-13T14:09:42.000Z</published>
+    <updated>2019-09-04T12:02:00.764Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li>如何获取redis中lua的版本信息<br>写一个lua脚本, 如下所示<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return _VERSION</span><br></pre></td></tr></table></figure></li></ol><p>然后执行 <code>redis-cli --eval $script.lua</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;如何获取redis中lua的版本信息&lt;br&gt;写一个lua脚本, 如下所示&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;
+      
+    
+    </summary>
+    
+    
+    
+      <category term="redis, lua" scheme="http://yoursite.com/tags/redis-lua/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>openresty_qna</title>
+    <link href="http://yoursite.com/2017/09/28/openresty-qna/"/>
+    <id>http://yoursite.com/2017/09/28/openresty-qna/</id>
+    <published>2017-09-28T06:12:01.000Z</published>
+    <updated>2019-09-04T12:02:00.763Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li>LUA_PATH v.s. LUA_CPATH</li><li>lua_package_path v.s. lua_package_cpath</li></ol><ul><li><a href="https://github.com/openresty/lua-nginx-module/issues/263" target="_blank" rel="noopener">lua_package_path not getting the relative path when running nginx with -p</a>.</li><li><a href="https://github.com/openresty/lua-nginx-module#lua_package_path" target="_blank" rel="noopener">https://github.com/openresty/lua-nginx-module#lua_package_path</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;LUA_PATH v.s. LUA_CPATH&lt;/li&gt;
+&lt;li&gt;lua_package_path v.s. lua_package_cpath&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/openresty/
+      
+    
+    </summary>
+    
+    
+    
+      <category term="openresty, lua, module" scheme="http://yoursite.com/tags/openresty-lua-module/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pem2bks</title>
+    <link href="http://yoursite.com/2017/09/18/pem2bks/"/>
+    <id>http://yoursite.com/2017/09/18/pem2bks/</id>
+    <published>2017-09-18T10:13:42.000Z</published>
+    <updated>2019-09-04T12:02:00.763Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Download-bcprod-ext-jdk15on-158"><a href="#Download-bcprod-ext-jdk15on-158" class="headerlink" title="Download bcprod-ext-jdk15on-158"></a>Download bcprod-ext-jdk15on-158</h2><ol><li>download the jar from <a href="https://www.bouncycastle.org/latest_releases.html" target="_blank" rel="noopener">https://www.bouncycastle.org/latest_releases.html</a></li><li>put the jar to <code>/usr/libexec/java_home</code>/jre/lib/ext</li></ol><h2 id="Convert-ca-pems-to-bks"><a href="#Convert-ca-pems-to-bks" class="headerlink" title="Convert ca pems to bks"></a>Convert ca pems to bks</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -importcert -trustcacerts -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider -alias $alias -keystore $bks_file -file $pem_file</span><br></pre></td></tr></table></figure><h2 id="Convert-cert-amp-key-to-bks"><a href="#Convert-cert-amp-key-to-bks" class="headerlink" title="Convert cert&amp;key to bks"></a>Convert cert&amp;key to bks</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd $1</span><br><span class="line">cn=$1</span><br><span class="line">rm -f $&#123;cn&#125;.p12 $&#123;cn&#125;.bks</span><br><span class="line">openssl pkcs12 -export -in $&#123;cn&#125;.crt -inkey $&#123;cn&#125;.key -out $&#123;cn&#125;.p12</span><br><span class="line">keytool -v -importkeystore -srckeystore $&#123;cn&#125;.p12 -srcstoretype PKCS12 -destkeystore $&#123;cn&#125;.bks -deststoretype BKS -destalias $&#123;cn&#125; -srcalias 1 -–provider org.bouncycastle.jce.provider.BouncyCastleProvider</span><br><span class="line">rm -f $&#123;cn&#125;.p12</span><br></pre></td></tr></table></figure><p>error:<br>Problem importing entry for alias 1: java.security.KeyStoreException: java.io.IOException: Error initialising store of key store: java.security.InvalidKeyException: Illegal key size.</p><p>download jce from <a href="http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html</a></p><p>unzip the file and replace the file in <code>/usr/libexec/java_home</code>/jre/lib/security</p><p>Reference:</p><ol><li><a href="http://callistaenterprise.se/blogg/teknik/2011/11/24/creating-self-signed-certificates-for-use-on-android/" target="_blank" rel="noopener">http://callistaenterprise.se/blogg/teknik/2011/11/24/creating-self-signed-certificates-for-use-on-android/</a></li><li><a href="http://blog.majiajie.me/2016/05/11/Android-%E5%81%B6%E9%81%87HTTPS/" target="_blank" rel="noopener">http://blog.majiajie.me/2016/05/11/Android-%E5%81%B6%E9%81%87HTTPS/</a></li><li><a href="https://www.pixelstech.net/article/1468485248-Convert-JKS-to-BKS-using-keytool" target="_blank" rel="noopener">https://www.pixelstech.net/article/1468485248-Convert-JKS-to-BKS-using-keytool</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Download-bcprod-ext-jdk15on-158&quot;&gt;&lt;a href=&quot;#Download-bcprod-ext-jdk15on-158&quot; class=&quot;headerlink&quot; title=&quot;Download bcprod-ext-jdk15on-15
+      
+    
+    </summary>
+    
+    
+    
+      <category term="ssl, keytool, openssl" scheme="http://yoursite.com/tags/ssl-keytool-openssl/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>split_pem</title>
+    <link href="http://yoursite.com/2017/09/15/split-pem/"/>
+    <id>http://yoursite.com/2017/09/15/split-pem/</id>
+    <published>2017-09-15T04:48:20.000Z</published>
+    <updated>2019-09-04T12:02:00.764Z</updated>
+    
+    <content type="html"><![CDATA[<p>This script use demo how to spilt pem into key and certificate by awk script</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> &#123;</span><br><span class="line">    split(ARGV[<span class="number">1</span>], a, <span class="string">"."</span>);</span><br><span class="line">    fname=a[<span class="number">1</span>] <span class="string">".key"</span></span><br><span class="line">    rm_cmd = <span class="string">"rm -f "</span> a[<span class="number">1</span>] <span class="string">".key"</span></span><br><span class="line">    system(rm_cmd)</span><br><span class="line">    rm_cmd=<span class="string">"rm -f "</span> a[<span class="number">1</span>] <span class="string">".crt"</span></span><br><span class="line">    system(rm_cmd)</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">    print <span class="variable">$0</span> &gt;&gt; fname</span><br><span class="line">    <span class="keyword">if</span>(<span class="variable">$0</span>==<span class="string">"-----END PRIVATE KEY-----"</span>) &#123;</span><br><span class="line">        fname=a[<span class="number">1</span>] <span class="string">".crt"</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">$0</span>==<span class="string">"-----END CERTIFICATE-----"</span>) &#123;</span><br><span class="line">        <span class="keyword">exit</span> <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>Usage:</p><p>awk -f split_pem.awk $file_name</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;This script use demo how to spilt pem into key and certificate by awk script&lt;/p&gt;
+&lt;figure class=&quot;highlight awk&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutt
+      
+    
+    </summary>
+    
+    
+    
+      <category term="awk, pem" scheme="http://yoursite.com/tags/awk-pem/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>logback</title>
+    <link href="http://yoursite.com/2017/08/16/logback/"/>
+    <id>http://yoursite.com/2017/08/16/logback/</id>
+    <published>2017-08-16T12:25:42.000Z</published>
+    <updated>2019-09-04T12:02:00.761Z</updated>
+    
+    <content type="html"><![CDATA[<p>集成logback 的时候碰到一个问题，就是先有很多第三方的lib使用的都是log4j。因此需要保证与之兼容。</p><h2 id="2-4-与遗留Logging框架兼容"><a href="#2-4-与遗留Logging框架兼容" class="headerlink" title="2.4 与遗留Logging框架兼容"></a>2.4 与遗留Logging框架兼容</h2><p>目前行业除了Logback之外，广泛使用的还有其他四种Logging框架：</p><ol><li>Log4j 1 (<a href="http://logging.apache.org/log4j/1.2/" target="_blank" rel="noopener">http://logging.apache.org/log4j/1.2/</a>)     </li><li>Log4j 2 (<a href="http://logging.apache.org/log4j/2.x/" target="_blank" rel="noopener">http://logging.apache.org/log4j/2.x/</a>)     </li><li>java.util.logging (<a href="http://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html" target="_blank" rel="noopener">http://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html</a>)     </li><li>Apache commons Logging (<a href="http://commons.apache.org/proper/commons-logging/" target="_blank" rel="noopener">http://commons.apache.org/proper/commons-logging/</a>)     </li></ol><p>Log4j2 因为是刚出来的，目前SLF4J对其的兼容性还未知，对于其他的三种框架，SLF4J都提供了兼容性的支持。下面介绍了如何让Logbak兼容这些框架，另外，也可以阅读官方说明：<a href="http://www.slf4j.org/legacy.html" target="_blank" rel="noopener">http://www.slf4j.org/legacy.html</a></p><h4 id="2-4-1-兼容Log4j-1和Apache-Commons-Logging"><a href="#2-4-1-兼容Log4j-1和Apache-Commons-Logging" class="headerlink" title="2.4.1 兼容Log4j 1和Apache Commons Logging"></a>2.4.1 兼容Log4j 1和Apache Commons Logging</h4><p>SLF4J对于Log4J 1和Apache commons Logging的支持方式是提供了实现Log4j和Apache commons Logging接口的SLF4J实现。使用方式是</p><ol><li>去取对Log4J和Apache commons Logging的Jar包的引用     </li><li>引入SLF4J的对应接口的实现包。     </li></ol><h4 id="2-4-1-1-移除引用"><a href="#2-4-1-1-移除引用" class="headerlink" title="2.4.1.1 移除引用"></a>2.4.1.1 移除引用</h4><p>如果你的系统是直接的使用了Log4j或者Apache commons Logging框架的话，你可以直接把对他们的引用去掉就可以了。如果是你所引用的第三方包里面引用了Log4j或者Apache commons Logging，可以使用<exclusions>标签去掉对他们的引用，如下所示：</exclusions></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.ldap&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-ldap-core&lt;/artifactId&gt;</span><br><span class="line">  &lt;exclusions&gt;</span><br><span class="line">      &lt;exclusion&gt;</span><br><span class="line">          &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;</span><br><span class="line">          &lt;groupId&gt;commons-logging&lt;/groupId&gt;</span><br><span class="line">      &lt;/exclusion&gt;</span><br><span class="line">  &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">如何找到哪些第三方包引用了Log4j或者Apache commons Logging呢？有俩个方法：</span><br><span class="line">1. 使用 mvn dependency:tree 命令，如下图所示，可以看出需要在org.springframework.ldap:spring-ldap-core中排除掉对Apache commons Logging的引用。</span><br><span class="line"></span><br><span class="line">2. 第二种方式是使用Eclipse的m2e Maven插件。如下图所示，打开pom.xml文件后，选择Dependency Hierarchy标签，然后在Filter中输入logging或者log4j进行过滤，在左侧的Dependency Hierarchy中使用右键菜单就可以自动过滤了。 </span><br><span class="line"></span><br><span class="line">#### 2.4.1.2 Maven导入对应的SLF4J实现包</span><br></pre></td></tr></table></figure><!-- Log4j 的SLF4J 实现 --><p><dependency><br>    <groupid>org.slf4j</groupid><br>    <artifactid>log4j-over-slf4j</artifactid><br>    <version>1.7.6</version><br></dependency><br><!-- Apache commons Logging 的SLF4J实现 --></p><p><dependency><br>    <groupid>org.slf4j</groupid><br>    <artifactid>jcl-over-slf4j</artifactid><br>    <version>1.7.6</version><br></dependency><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 2.4.1.3 非Maven版导入对应的SLF4J实现包</span><br><span class="line"></span><br><span class="line">直接删除掉log4j-1.**.jar和commons-logging-1.**.jar文件，把http://slf4j.org/dist/slf4j-1.7.6.zip下载下来，把压缩包里的log4j-over-slf4j-1.7.6.jar或者（和）jcl-over-slf4j-1.7.6.jar文件放到classpath中。</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">### 2.4.2 兼容java.util.logging</span><br><span class="line"></span><br><span class="line">SLF4J的jul-to-slf4j模块实现了一个java.util.logging handler，该handler会把对java.util.logging的调用都转化成对SLF4J实现的调用。所以需要以下俩个步骤：</span><br><span class="line"></span><br><span class="line">1. 导入jul-to-slf4j模块     </span><br><span class="line">1. 启用jul-to-slf4j模块     </span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">#### 2.4.2.1 导入jul-to-slf4j模块maven版</span><br></pre></td></tr></table></figure></p><p><dependency><br>    <groupid>org.slf4j</groupid><br>    <artifactid>jul-to-slf4j</artifactid><br>    <version>1.7.6</version><br></dependency><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 2.4.2.2 导入jul-to-slf4j模块非Maven版</span><br><span class="line"></span><br><span class="line">把http://slf4j.org/dist/slf4j-1.7.6.zip下载下来，把压缩包里的jul-to-slf4j-1.7.6.jar放到classpath中。</span><br><span class="line"></span><br><span class="line">#### 2.4.2.3 启用jul-to-slf4j模块</span><br><span class="line"></span><br><span class="line">在logging.properties中添加如下一行：</span><br></pre></td></tr></table></figure></p><p>handlers = org.slf4j.bridge.SLF4JBridgeHandler<br><code>`</code></p><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://www.cnblogs.com/justuntil/p/4067160.html" target="_blank" rel="noopener">http://www.cnblogs.com/justuntil/p/4067160.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;集成logback 的时候碰到一个问题，就是先有很多第三方的lib使用的都是log4j。因此需要保证与之兼容。&lt;/p&gt;
+&lt;h2 id=&quot;2-4-与遗留Logging框架兼容&quot;&gt;&lt;a href=&quot;#2-4-与遗留Logging框架兼容&quot; class=&quot;headerlink&quot; 
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>convert_pem_to_jks</title>
+    <link href="http://yoursite.com/2017/03/29/convert-pem-to-jks/"/>
+    <id>http://yoursite.com/2017/03/29/convert-pem-to-jks/</id>
+    <published>2017-03-29T06:04:39.000Z</published>
+    <updated>2019-09-04T12:02:00.759Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Convert-PrivateKey-Certificate-to-JKS"><a href="#Convert-PrivateKey-Certificate-to-JKS" class="headerlink" title="Convert PrivateKey/Certificate to JKS"></a>Convert PrivateKey/Certificate to JKS</h1><p>openssl pkcs12 -export -in nmp_client.crt -inkey nmp_client.key -out nmp_client.pfx<br>nmp_client.crt nmp_client.key</p><p>keytool -genkey -keyalg RSA -alias endeca -keystore nmp_client_truststore.ks</p><p>keytool -delete -alias endeca -keystore nmp_client_truststore.ks</p><p>../ca/nmp_ca.crt</p><p>keytool -import -v -trustcacerts -alias endeca-ca -file ../ca/nmp_ca.crt -keystore nmp_client_truststore.ks</p><p>keytool -genkey -keyalg RSA -alias endeca -keystore nmp_client_keystore.ks<br>keytool -delete -alias endeca -keystore nmp_client_keystore.ks</p><p>keytool -v -importkeystore -srckeystore nmp_client.pfx -srcstoretype PKCS12 -destkeystore nmp_client_keystore.ks -deststoretype JKS</p><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://docs.oracle.com/cd/E35976_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html" target="_blank" rel="noopener">https://docs.oracle.com/cd/E35976_01/server.740/es_admin/src/tadm_ssl_convert_pem_to_jks.html</a><br><a href="https://blogs.technet.microsoft.com/uclobby/2015/05/22/merge-certificate-public-and-private-key-with-openssl/" target="_blank" rel="noopener">https://blogs.technet.microsoft.com/uclobby/2015/05/22/merge-certificate-public-and-private-key-with-openssl/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Convert-PrivateKey-Certificate-to-JKS&quot;&gt;&lt;a href=&quot;#Convert-PrivateKey-Certificate-to-JKS&quot; class=&quot;headerlink&quot; title=&quot;Convert PrivateKey
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>logstash</title>
+    <link href="http://yoursite.com/2017/03/21/logstash/"/>
+    <id>http://yoursite.com/2017/03/21/logstash/</id>
+    <published>2017-03-21T01:44:58.000Z</published>
+    <updated>2019-09-04T12:02:00.762Z</updated>
+    
+    <content type="html"><![CDATA[<p>logstash file rotate and start_position</p><ol><li>logstash使用inode来确定一个文件是否是新文件</li><li>logstash 中start_position 如果表示beginning 表示从新文件的第一行开始处理，如果不是新文件的话，那么就从sincedb中查看对应inode的offset，从offset的位置开始处理</li><li>log4j使用mv（rename并非copy）方式rotate日志文件，因此rotate 生成的日志文件将不会被logstash 再次处理</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;logstash file rotate and start_position&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;logstash使用inode来确定一个文件是否是新文件&lt;/li&gt;
+&lt;li&gt;logstash 中start_position 如果表示beginning 表示从新文件的
+      
+    
+    </summary>
+    
+    
+    
+      <category term="log, es, elk" scheme="http://yoursite.com/tags/log-es-elk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>install_m2crypto</title>
+    <link href="http://yoursite.com/2017/03/19/install-m2crypto/"/>
+    <id>http://yoursite.com/2017/03/19/install-m2crypto/</id>
+    <published>2017-03-19T07:21:22.000Z</published>
+    <updated>2019-09-04T12:02:00.760Z</updated>
+    
+    <content type="html"><![CDATA[<p>I have spend a lot of time to install m2crypo in mac. here is some problems I come accoss in this process.</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> pip install m2crypto --user python</span><br></pre></td></tr></table></figure><h2 id="Cannot-find-swig"><a href="#Cannot-find-swig" class="headerlink" title="Cannot find swig"></a>Cannot find swig</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install swig</span><br></pre></td></tr></table></figure><p>solve this problem, but new error follows.</p><h2 id="Cannot-find-header-file"><a href="#Cannot-find-header-file" class="headerlink" title="Cannot find header file"></a>Cannot find header file</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Collecting m2crypto</span><br><span class="line">  Using cached M2Crypto-0.25.1.tar.gz</span><br><span class="line">Requirement already satisfied: typing in /Users/bin.yu/Library/Python/2.7/lib/python/site-packages (from m2crypto)</span><br><span class="line">Installing collected packages: m2crypto</span><br><span class="line">  Running setup.py install for m2crypto ... error</span><br><span class="line">    Complete output from command /usr/bin/python -u -c &quot;import setuptools, tokenize;__file__=&apos;/private/tmp/pip-build-4LjWjW/m2crypto/setup.py&apos;;f=getattr(tokenize, &apos;open&apos;, open)(__file__);code=f.read().replace(&apos;\r\n&apos;, &apos;\n&apos;);f.close();exec(compile(code, __file__, &apos;exec&apos;))&quot; install --record /tmp/pip-Fvea5n-record/install-record.txt --single-version-externally-managed --compile:</span><br><span class="line">    running install</span><br><span class="line">    running build</span><br><span class="line">    running build_py</span><br><span class="line">    copying M2Crypto/__init__.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto</span><br><span class="line">    copying M2Crypto/_m2crypto.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto</span><br><span class="line">    ...</span><br><span class="line">    copying M2Crypto/SSL/SSLServer.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    copying M2Crypto/SSL/timeout.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    copying M2Crypto/SSL/TwistedProtocolWrapper.py -&gt; build/lib.macosx-10.11-intel-2.7/M2Crypto/SSL</span><br><span class="line">    running build_ext</span><br><span class="line">    building &apos;M2Crypto.__m2crypto&apos; extension</span><br><span class="line">    swigging SWIG/_m2crypto.i to SWIG/_m2crypto_wrap.c</span><br><span class="line">    swig -python -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/usr/include -includeall -modern -builtin -outdir build/lib.macosx-10.11-intel-2.7/M2Crypto -o SWIG/_m2crypto_wrap.c SWIG/_m2crypto.i</span><br><span class="line">    SWIG/_m2crypto.i:31: Error: Unable to find &apos;openssl/opensslv.h&apos;</span><br><span class="line">    SWIG/_m2crypto.i:45: Error: Unable to find &apos;openssl/safestack.h&apos;</span><br><span class="line">    SWIG/_evp.i:12: Error: Unable to find &apos;openssl/opensslconf.h&apos;</span><br><span class="line">    SWIG/_ec.i:7: Error: Unable to find &apos;openssl/opensslconf.h&apos;</span><br><span class="line">    error: command &apos;swig&apos; failed with exit status 1</span><br><span class="line">    </span><br><span class="line">    ----------------------------------------</span><br><span class="line">Command &quot;/usr/bin/python -u -c &quot;import setuptools, tokenize;__file__=&apos;/private/tmp/pip-build-4LjWjW/m2crypto/setup.py&apos;;f=getattr(tokenize, &apos;open&apos;, open)(__file__);code=f.read().replace(&apos;\r\n&apos;, &apos;\n&apos;);f.close();exec(compile(code, __file__, &apos;exec&apos;))&quot; install --record /tmp/pip-Fvea5n-record/install-record.txt --single-version-externally-managed --compile&quot; failed with error code 1 in /private/tmp/pip-build-4LjWjW/m2crypto/</span><br></pre></td></tr></table></figure><p>The error is obvious, it is because it cannot find the openssl include directory. However, I have installed openssl by brew before and swig includes <code>-I/usr/include</code>, but my openssl’s header directory is <code>/usr/local/opt/openssl/include</code>, so one option is create a soft link between them. Here is the command.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># sudo ln -s /usr/local/opt/openssl/include/openssl /usr/include/openssl</span><br><span class="line">ln: /usr/include/openssl: Operation not permitted</span><br></pre></td></tr></table></figure><p>this error is because new version of Mac OS EL Capitan 10.11.6 is not allow to operate some critical path, you can refer to this <a href="http://apple.stackexchange.com/questions/196224/unix-ln-s-command-not-permitted-in-osx-el-capitan-beta3" target="_blank" rel="noopener">link</a>. It is not recommended to close rootless. So we have to find a better way to solve this problem.</p><p>another option is check swig command</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swig -python -I/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I/usr/include -includeall -modern -builtin -outdir build/lib.macosx-10.11-intel-2.7/M2Crypto -o SWIG/_m2crypto_wrap.c SWIG/_m2crypto.i</span><br></pre></td></tr></table></figure><p>by <code>swig --hel</code> we find that</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Options can also be defined using the SWIG_FEATURES environment variable, for example:</span><br><span class="line"></span><br><span class="line">  $ SWIG_FEATURES=&quot;-Wall&quot;</span><br><span class="line">  $ export SWIG_FEATURES</span><br><span class="line">  $ swig -python interface.i</span><br><span class="line"></span><br><span class="line">is equivalent to: </span><br><span class="line"></span><br><span class="line">  $ swig -Wall -python interface.i</span><br></pre></td></tr></table></figure><p>so we can set env variable <code>SWIG_FEATURES</code> to change header path.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">env LDFLAGS=&quot;-L&quot;(brew --prefix openssl)&quot;/lib&quot; \</span><br><span class="line">CFLAGS=&quot;-I&quot;(brew --prefix openssl)&quot;/include&quot; \</span><br><span class="line">SWIG_FEATURES=&quot;-cpperraswarn -includeall -I&quot;(brew --prefix openssl)&quot;/include&quot; \</span><br><span class="line">pip install m2crypto</span><br></pre></td></tr></table></figure><p>for more detail please refer to <a href="http://stackoverflow.com/questions/33005354/trouble-installing-m2crypto-with-pip-on-el-capitan" target="_blank" rel="noopener">Trouble installing m2crypto with pip on El Capitan</a>.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;I have spend a lot of time to install m2crypo in mac. here is some problems I come accoss in this process.&lt;/p&gt;
+&lt;figure class=&quot;highlight s
+      
+    
+    </summary>
+    
+    
+    
+      <category term="python, pip, library" scheme="http://yoursite.com/tags/python-pip-library/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>openssl</title>
+    <link href="http://yoursite.com/2017/03/05/openssl/"/>
+    <id>http://yoursite.com/2017/03/05/openssl/</id>
+    <published>2017-03-05T14:54:20.000Z</published>
+    <updated>2019-09-04T12:02:00.763Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Useful-command"><a href="#Useful-command" class="headerlink" title="Useful command"></a>Useful command</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> Extract chain</span><br><span class="line">openssl crl2pkcs7 -nocrl -certfile tls_tsp_test_p12.pem | openssl pkcs7 -print_certs -out tls_tsp_test_trustchain.pem</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Extract key</span><br><span class="line">openssl pkey -in tls_tsp_test_p12.pem -out ~/Nextev/message_server/conf/test_tsp/ssl/nmp_server.key</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Extract cert</span><br><span class="line">openssl x509 -in tls_tsp_test_p12.pem -outform pem -out ~/Nextev/message_server/conf/test_tsp/ssl/  nmp_server.crt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Verify client by connect to server</span><br><span class="line">openssl s_client -host localhost -port 10083 -certform PEM -cert tls_lion_cert.pem -keyform PEM -key tls_lion_privKey.pem -CAfile nmp_server_chain.crt</span><br></pre></td></tr></table></figure><p><a href="https://www.sslshopper.com/article-most-common-openssl-commands.html" target="_blank" rel="noopener">https://www.sslshopper.com/article-most-common-openssl-commands.html</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Android 系统中使用的证书要求是bks格式。</span><br><span class="line">一般来说，我们使用jdk的keytool只能生成jks的证书库，如果生成bks的则需要下载BouncyCastle库。</span><br><span class="line">搜集了各方资料，整理了以下如何将服务端提供的crt格式证书转换成Android上使用的bks证书。</span><br><span class="line"></span><br><span class="line">1 Introduction</span><br><span class="line"></span><br><span class="line">JKS和JCEKS是Java密钥库(KeyStore)的两种比较常见类型，JKS的Provider是SUN，在每个版本的JDK中都有。</span><br><span class="line">BKS来自BouncyCastleProvider，它使用的也是TripleDES来保护密钥库中的Key，它能够防止证书库被不小心修改（Keystore的keyentry改掉1个bit都会产生错误），BKS能够跟JKS互操作。</span><br><span class="line">2 Steps</span><br><span class="line"></span><br><span class="line">要生成bks证书，需要bcprov-ext-jdk15on-151.jar（下载地址）。且将该文件放到Java\jdk1.8.0_20\jre\lib\ext目录下。</span><br><span class="line"></span><br><span class="line">我们的后端同事提供了自签名的服务器证书server.crt，我们需要把这个server.crt转换成Android系统的bks格式证书。使用以下命令行：</span><br><span class="line">keytool -importcert -trustcacerts -keystore e:\key.bks -file e:\server.crt -storetype BKS -provider org.bouncycastle.jce.provider.BouncyCastleProvider</span><br><span class="line">按照提示重复输入两次密码（在Java的KeyStore对象加载证书时会用到这个密码。），然后就成功将E:\目录下的server.crt转成key.bks证书。</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Useful-command&quot;&gt;&lt;a href=&quot;#Useful-command&quot; class=&quot;headerlink&quot; title=&quot;Useful command&quot;&gt;&lt;/a&gt;Useful command&lt;/h1&gt;&lt;figure class=&quot;highlight 
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>kafka add replica</title>
+    <link href="http://yoursite.com/2017/02/21/kafka-add-replica/"/>
+    <id>http://yoursite.com/2017/02/21/kafka-add-replica/</id>
+    <published>2017-02-21T15:37:34.000Z</published>
+    <updated>2019-09-04T12:02:00.761Z</updated>
+    
+    <content type="html"><![CDATA[<p>Sometimes it is inevitable we want to change the replicas of an existent topic.</p><p>Here is steps</p><ol><li><p>Create a JSON file named increase-replication-factor.json with the following code:</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">"partitions"</span>: [&#123;</span><br><span class="line">        <span class="attr">"topic"</span>: <span class="string">"dev_tracer"</span>,</span><br><span class="line">        <span class="attr">"partition"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"replicas"</span>: [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">    &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>Run the following command:</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span> bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 --reassignment-json-file increase-replication-factor.json --execute</span><br></pre></td></tr></table></figure></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Sometimes it is inevitable we want to change the replicas of an existent topic.&lt;/p&gt;
+&lt;p&gt;Here is steps&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Create a JSON file n
+      
+    
+    </summary>
+    
+    
+    
+      <category term="kafka" scheme="http://yoursite.com/tags/kafka/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>jps_cannot_find_pid</title>
+    <link href="http://yoursite.com/2016/11/10/jps-cannot-find-pid/"/>
+    <id>http://yoursite.com/2016/11/10/jps-cannot-find-pid/</id>
+    <published>2016-11-10T15:42:38.000Z</published>
+    <updated>2019-09-04T12:02:00.760Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="JPS-Cannot-Find-PID"><a href="#JPS-Cannot-Find-PID" class="headerlink" title="JPS Cannot Find PID"></a>JPS Cannot Find PID</h1><p>JPS (Java Process Status) is a very useful to to list all the java process.</p><p>However, it is very common that we cannot list the java process which is actually running. This is because, when java process is running in JVM, it will create a pid file under /tmp/hsperfdata_$(USER)</p><p>Therefore if <code>jps -l</code> doesn’t contains the process id as you expect there would be:</p><ol><li>you don’t call the jps as the user same as java process, so switch to the user.</li><li>your java process tmp file was set to other dir</li></ol><p>For second scenario, I solve my problem. I user systemctl to maintain my java process. In the service file, I define a item as followed:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">PrivateTmp=true</span><br><span class="line">...</span><br></pre></td></tr></table></figure><p>This item means that java tmp file will be locate to <code>systemd-private-****-$(service_name)-****</code>, therefore jps cannot locate the pid file.</p><p>after remove this item, everything works.</p><p>Potential Error</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ jps 24360</span><br><span class="line">RMI Registry not available at 24360:1099</span><br><span class="line">Exception creating connection to: 24360; nested exception is:</span><br><span class="line">    java.net.SocketException: Invalid argument or cannot assign requested address</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo jstack 24360</span><br><span class="line">24360: Unable to open socket file: target process not responding or HotSpot VM not loaded</span><br><span class="line">The-F option can be used when the target process is not responding</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">$ sudo jmap -heap 24360</span><br><span class="line">Attaching to process ID 24360, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 25.102-b14</span><br><span class="line"></span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Parallel GC with 8 thread(s)</span><br><span class="line"></span><br><span class="line">    Heap Configuration:</span><br><span class="line">       MinHeapFreeRatio         = 0</span><br><span class="line">          MaxHeapFreeRatio         = 100</span><br><span class="line">             MaxHeapSize              = 3875536896 (3696.0MB)</span><br><span class="line">       NewSize                  = 80740352 (77.0MB)</span><br><span class="line">       MaxNewSize               = 1291845632 (1232.0MB)</span><br><span class="line">       OldSize                  = 162529280 (155.0MB)</span><br><span class="line">       NewRatio                 = 2</span><br><span class="line">          SurvivorRatio            = 8</span><br><span class="line">             MetaspaceSize            = 21807104 (20.796875MB)</span><br><span class="line">       CompressedClassSpaceSize = 1073741824 (1024.0MB)</span><br><span class="line">       MaxMetaspaceSize         = 17592186044415 MB</span><br><span class="line">          G1HeapRegionSize         = 0 (0.0MB)</span><br><span class="line"></span><br><span class="line">    Heap Usage:</span><br><span class="line">    Exception in thread &quot;main&quot; java.lang.reflect.InvocationTargetException</span><br><span class="line">        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</span><br><span class="line">        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">        at java.lang.reflect.Method.invoke(Method.java:498)</span><br><span class="line">        at sun.tools.jmap.JMap.runTool(JMap.java:201)</span><br><span class="line">        at sun.tools.jmap.JMap.main(JMap.java:130)</span><br><span class="line">    Caused by: java.lang.RuntimeException: unknown CollectedHeap type : class sun.jvm.hotspot.gc_interface.CollectedHeap</span><br><span class="line">        at sun.jvm.hotspot.tools.HeapSummary.run(HeapSummary.java:144)</span><br><span class="line">        at sun.jvm.hotspot.tools.Tool.startInternal(Tool.java:260)</span><br><span class="line">        at sun.jvm.hotspot.tools.Tool.start(Tool.java:223)</span><br><span class="line">        at sun.jvm.hotspot.tools.Tool.execute(Tool.java:118)</span><br><span class="line">        at sun.jvm.hotspot.tools.HeapSummary.main(HeapSummary.java:49)</span><br><span class="line">        ... 6 more</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;JPS-Cannot-Find-PID&quot;&gt;&lt;a href=&quot;#JPS-Cannot-Find-PID&quot; class=&quot;headerlink&quot; title=&quot;JPS Cannot Find PID&quot;&gt;&lt;/a&gt;JPS Cannot Find PID&lt;/h1&gt;&lt;p&gt;JP
+      
+    
+    </summary>
+    
+    
+    
+      <category term="jps, hsperfdata, jstack, jmap, jhat, systemctl" scheme="http://yoursite.com/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ssl_tsl</title>
+    <link href="http://yoursite.com/2016/07/08/ssl-tsl/"/>
+    <id>http://yoursite.com/2016/07/08/ssl-tsl/</id>
+    <published>2016-07-08T03:56:21.000Z</published>
+    <updated>2019-09-04T12:02:00.765Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="SSL-amp-TSL-原理"><a href="#SSL-amp-TSL-原理" class="headerlink" title="SSL &amp; TSL 原理"></a>SSL &amp; TSL 原理</h1><h2 id="安全通信背景"><a href="#安全通信背景" class="headerlink" title="安全通信背景"></a>安全通信背景</h2><p>在介绍SSL 以及 TSL<br>之前我们必须了解<a href="https://en.wikipedia.org/wiki/Public-key_cryptography" target="_blank" rel="noopener">公钥加密方法</a>。这个方法其实很简单，意思是利用加密算法生成一对钥匙和锁，可以把公钥认为是锁，私钥认为是钥匙。生成了这个工具之后，就可以把锁（公钥）公布出去，其他人利用这个锁将数据进行加密。然后可以传输该加密信息，只有掌握了钥匙（私钥）的一方才能对这些加密的信息进行解密。</p><p>介绍完公钥加密方法之后我们自然有一个疑问，客户端与服务端双方如何通过HTTP请求以及公钥加密算法实现加密通信呢？一个显而易见的想法就是服务端生成公钥和私钥，客户端请求公钥，服务端将公钥交给客户端，客户端拿到这个公钥之后加密数据并传输，服务端收到这个加密数据用私钥解密之后做相应的处理。这一切都显得很美妙，不过存在一个实际问题。这个问题是由公钥算法带来的，一般来说我们为了保证加密算法的安全性，采用的加密算法比较复杂，如果客户端每次都使用公钥加密的话，那么数据通信效率将受到加密算法效率的影响，而且该影响基本肯定是负向的。那么有什么方法解决这个问题呢？</p><p>聪明的前人自然不会让我们失望。如果使用公钥加密算法太复杂，我们可以采用其他加密方式，比如说<a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%A8%B1%E5%AF%86%E9%91%B0%E5%8A%A0%E5%AF%86" target="_blank" rel="noopener">对称加密算法</a>（高效）。</p><p>引入对成加密算法之后也带来新的问题。对成加密算法要求双方都使用相同的密钥进行加密解密。如何保证通信双方能够安全的获取对应的密钥呢？其实答案已经在我们的公钥加密算法中了，对称密钥算法可以解决公钥加密算法的低效，反过来公钥加密算法可以解决对称密钥算法需要传输相同密钥的缺点。因此，两种加密算法正好形成互补。</p><h2 id="SSL-TSL-通信过程"><a href="#SSL-TSL-通信过程" class="headerlink" title="SSL/TSL 通信过程"></a>SSL/TSL 通信过程</h2><p>通过上述的介绍，我们现在来详细解释一下SSL／TSL通信的详细过程，如下所示：</p><ol><li>客户端向服务发起请求，该请求中包含的内容：支持安全协议版本，一个客户端生成的随机数（用于对称加密），支持的加密算法，例如RSA公钥加密，支持的压缩算法。</li><li>服务端收到客户端请求之后，向客户端返回响应，内容包括：确认使用安全协议的版本，一个服务器生成的随机数（同样用于对称加密），确认使用加密算法，服务器证书（就是服务端利用公钥加密算法生成的公钥）<br>3.<br>客户端收到服务的响应之后，向服务端再次发起请求，内容包括：使用服务端提供的证书加密随机数（新的随机数，同样用于对称加密算法），编码改变通知（表示随后的信息都使用双方商定的加密方法和密钥发送，其实就是说使用对称加密算法进行通信），客户端握手结束通知，表示客户端的握手阶段已经结束（这一项同时也是前面发送的所有内容的hash值，用来供服务器校验）。</li><li>服务端最后的响应，包括，编码改变通知（表示随后的信息都将用双方商定的加密方法和密钥发送），服务器握手结束通知，表示服务器的握手阶段已经结束（这一项同时也是前面发送的所有内容的hash值，用来供客户端校验）。</li></ol><p>此后客户端用对称加密算法对数据进行加密，然后通过http协议向服务端发送加密后的数据。服务端收到加密数据，使用对称加密算法对其进行解密。这一前提是双方都掌握了三个随机数。</p><p>问题来了，为什么要采用三个随机数呢？使用三个随机数的原因是基于服务端不信任客户端能够产生真正的随机数，如果只是伪随机数的话，那么还是有可能被破解。通过服务端生成的随机数，加上客户端的两个随机数，其中一个用公钥加密，能够最大近似真实随机数。利用这个三个随机数导出的对称密钥可以保证安全。</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol><li><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html?20160707190413#comment-last" target="_blank" rel="noopener">SSL/TLS协议运行机制的概述</a></li><li><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="noopener">图解SSL/TLS协议</a></li><li><a href="https://zh.wikipedia.org/wiki/%E5%B0%8D%E7%A8%B1%E5%AF%86%E9%91%B0%E5%8A%A0%E5%AF%86" target="_blank" rel="noopener">对称密钥加密</a></li><li><a href="https://en.wikipedia.org/wiki/Public-key_cryptography" target="_blank" rel="noopener">公钥加密</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;SSL-amp-TSL-原理&quot;&gt;&lt;a href=&quot;#SSL-amp-TSL-原理&quot; class=&quot;headerlink&quot; title=&quot;SSL &amp;amp; TSL 原理&quot;&gt;&lt;/a&gt;SSL &amp;amp; TSL 原理&lt;/h1&gt;&lt;h2 id=&quot;安全通信背景&quot;&gt;&lt;a hr
+      
+    
+    </summary>
+    
+    
+    
+      <category term="ssl, tsl, security, web" scheme="http://yoursite.com/tags/ssl-tsl-security-web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java_8_lamda_expression</title>
+    <link href="http://yoursite.com/2016/07/07/java-8-lambda-expression/"/>
+    <id>http://yoursite.com/2016/07/07/java-8-lambda-expression/</id>
+    <published>2016-07-07T08:14:07.000Z</published>
+    <updated>2019-09-04T12:02:00.760Z</updated>
+    
+    <content type="html"><![CDATA[<p>Lambda 表达式是在Java 8中被引入的，而且是Java 8中最大的功能。Lambda表达式促进了函数式编程，同时简化了开发。</p><h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>Lambda 表达式具有以下几个语法特征：</p><ul><li>无需声明变量类型 - 编译器能够根据变量的值推断出变量类型。</li><li>无需括号包含参数 - 不需要对单个参数使用括号，但是对于多个参数依然需要使用括号来包含它们。</li><li>无需花括号 － 如果只有一个表达式，那么就不需要使用</li><li>无需使用关键字return － 编译器会自动将只有一行的表达式作为返回值，如果需要使用return则必须要求用花括号将其包含。</li></ul><p>以下是上述语法的一个具体例子</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Java8Tester</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</span><br><span class="line">      Java8Tester tester = <span class="keyword">new</span> Java8Tester();</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//with type declaration</span></span><br><span class="line">      MathOperation addition = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; a + b;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//with out type declaration</span></span><br><span class="line">      MathOperation subtraction = (a, b) -&gt; a - b;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//with return statement along with curly braces</span></span><br><span class="line">      MathOperation multiplication = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; &#123; <span class="keyword">return</span> a * b; &#125;;</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//without return statement and without curly braces</span></span><br><span class="line">      MathOperation division = (<span class="keyword">int</span> a, <span class="keyword">int</span> b) -&gt; a / b;</span><br><span class="line">        </span><br><span class="line">      System.out.println(<span class="string">"10 + 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, addition));</span><br><span class="line">      System.out.println(<span class="string">"10 - 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, subtraction));</span><br><span class="line">      System.out.println(<span class="string">"10 x 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, multiplication));</span><br><span class="line">      System.out.println(<span class="string">"10 / 5 = "</span> + tester.operate(<span class="number">10</span>, <span class="number">5</span>, division));</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//with parenthesis</span></span><br><span class="line">      GreetingService greetService1 = message -&gt;</span><br><span class="line">      System.out.println(<span class="string">"Hello "</span> + message);</span><br><span class="line">        </span><br><span class="line">      <span class="comment">//without parenthesis</span></span><br><span class="line">      GreetingService greetService2 = (message) -&gt;</span><br><span class="line">      System.out.println(<span class="string">"Hello "</span> + message);</span><br><span class="line">        </span><br><span class="line">      greetService1.sayMessage(<span class="string">"Mahesh"</span>);</span><br><span class="line">      greetService2.sayMessage(<span class="string">"Suresh"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="class"><span class="keyword">interface</span> <span class="title">MathOperation</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">int</span> <span class="title">operation</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="class"><span class="keyword">interface</span> <span class="title">GreetingService</span> </span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">void</span> <span class="title">sayMessage</span><span class="params">(String message)</span></span>;</span><br><span class="line">   &#125;</span><br><span class="line">    </span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">operate</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, MathOperation mathOperation)</span></span>&#123;</span><br><span class="line">      <span class="keyword">return</span> mathOperation.operation(a, b);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>验证结果</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$javac Java8Tester.java</span><br></pre></td></tr></table></figure><p>运行</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$java Java8Tester</span><br></pre></td></tr></table></figure><p>运行结果</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">10 + 5 = 15</span><br><span class="line">10 - 5 = 5</span><br><span class="line">10 x 5 = 50</span><br><span class="line">10 / 5 = 2</span><br><span class="line">Hello Mahesh</span><br><span class="line">Hello Suresh</span><br></pre></td></tr></table></figure><p>从上述的例子中我们需要学习到的点</p><ol><li>Lambda 表达式主要用于定义一个函数接口的内部实现。例如，一个接口只有一个方法。在上述的例子中，我们使用各种个样的Lambda 表达式定义MathOperation 接口的操作。然后我们定义了GreetingService中的sayMessage实现。</li><li>有了Lambda表达式之后我们就不再需要匿名类，赋予java强大的函数编程的能力。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Lambda 表达式是在Java 8中被引入的，而且是Java 8中最大的功能。Lambda表达式促进了函数式编程，同时简化了开发。&lt;/p&gt;
+&lt;h1 id=&quot;语法&quot;&gt;&lt;a href=&quot;#语法&quot; class=&quot;headerlink&quot; title=&quot;语法&quot;&gt;&lt;/a&gt;语法&lt;/h1
+      
+    
+    </summary>
+    
+    
+    
+      <category term="java 8, lambda" scheme="http://yoursite.com/tags/java-8-lambda/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mqtt_protocol</title>
+    <link href="http://yoursite.com/2016/06/30/mqtt-protocol/"/>
+    <id>http://yoursite.com/2016/06/30/mqtt-protocol/</id>
+    <published>2016-06-30T13:12:57.000Z</published>
+    <updated>2019-09-04T12:02:00.762Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="MQTT-控制包"><a href="#MQTT-控制包" class="headerlink" title="MQTT 控制包"></a>MQTT 控制包</h1><h2 id="CONNECT-客户端连接服务器"><a href="#CONNECT-客户端连接服务器" class="headerlink" title="CONNECT - 客户端连接服务器"></a>CONNECT - 客户端连接服务器</h2><p>在客户端于服务器建立起一个网络连接之后，从客户端想服务端发送的第一个包必须是CONNECT 包。</p><p>一个客户端在一个网络连接中只能发送一次CONNECT 包。服务器。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;MQTT-控制包&quot;&gt;&lt;a href=&quot;#MQTT-控制包&quot; class=&quot;headerlink&quot; title=&quot;MQTT 控制包&quot;&gt;&lt;/a&gt;MQTT 控制包&lt;/h1&gt;&lt;h2 id=&quot;CONNECT-客户端连接服务器&quot;&gt;&lt;a href=&quot;#CONNECT-客户端连接
+      
+    
+    </summary>
+    
+    
+    
+      <category term="mqtt" scheme="http://yoursite.com/tags/mqtt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>guava_RateLimiter</title>
+    <link href="http://yoursite.com/2016/06/28/guava-RateLimiter/"/>
+    <id>http://yoursite.com/2016/06/28/guava-RateLimiter/</id>
+    <published>2016-06-28T07:32:58.000Z</published>
+    <updated>2019-09-04T12:02:00.759Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cmcm.news.meerkat.pns.pns;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.google.common.util.concurrent.RateLimiter;</span><br><span class="line"><span class="keyword">import</span> org.testng.annotations.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ArrayBlockingQueue;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.BlockingQueue;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RateLimiterTest</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STOP_FLAG = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Worker</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> RateLimiter limiter;</span><br><span class="line">        <span class="keyword">private</span> BlockingQueue&lt;Integer&gt; queue;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> workerId;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Worker</span><span class="params">(<span class="keyword">int</span> workerId, RateLimiter limiter, BlockingQueue&lt;Integer&gt; queue)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.workerId = workerId;</span><br><span class="line">            <span class="keyword">this</span>.limiter = limiter;</span><br><span class="line">            <span class="keyword">this</span>.queue = queue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    limiter.acquire();</span><br><span class="line">                    <span class="keyword">int</span> value = <span class="keyword">this</span>.queue.take();</span><br><span class="line">                    <span class="keyword">if</span> (value == STOP_FLAG) &#123;</span><br><span class="line">                        System.out.println(<span class="string">"get stop flag..."</span>);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    System.out.println(<span class="string">"Worker get "</span> + value);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> threadNum = <span class="number">10</span>;</span><br><span class="line">        BlockingQueue&lt;Integer&gt; queue = <span class="keyword">new</span> ArrayBlockingQueue&lt;Integer&gt;(<span class="number">100</span>);</span><br><span class="line">        RateLimiter limiter = RateLimiter.create(<span class="number">50</span>);</span><br><span class="line">        ExecutorService es = Executors.newFixedThreadPool(threadNum);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadNum; ++i) &#123;</span><br><span class="line">            es.submit(<span class="keyword">new</span> Worker(i, limiter, queue));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++) &#123;</span><br><span class="line">            queue.put(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadNum; ++i) &#123;</span><br><span class="line">            queue.put(STOP_FLAG);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(!queue.isEmpty()) &#123;</span><br><span class="line">            Thread.sleep(<span class="number">10</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"cost time: "</span> + (System.currentTimeMillis() - start));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=
+      
+    
+    </summary>
+    
+    
+    
+      <category term="guava, java" scheme="http://yoursite.com/tags/guava-java/"/>
+    
+  </entry>
+  
+</feed>

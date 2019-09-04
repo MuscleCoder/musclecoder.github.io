@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>logback | Peace In Mind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="集成logback 的时候碰到一个问题，就是先有很多第三方的lib使用的都是log4j。因此需要保证与之兼容。 2.4 与遗留Logging框架兼容目前行业除了Logback之外，广泛使用的还有其他四种Logging框架：  Log4j 1 (http://logging.apache.org/log4j/1.2/)      Log4j 2 (http://logging.apache.org/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="logback">
+<meta property="og:url" content="http://yoursite.com/2017/08/16/logback/index.html">
+<meta property="og:site_name" content="Peace In Mind">
+<meta property="og:description" content="集成logback 的时候碰到一个问题，就是先有很多第三方的lib使用的都是log4j。因此需要保证与之兼容。 2.4 与遗留Logging框架兼容目前行业除了Logback之外，广泛使用的还有其他四种Logging框架：  Log4j 1 (http://logging.apache.org/log4j/1.2/)      Log4j 2 (http://logging.apache.org/">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:updated_time" content="2019-09-04T12:02:00.761Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="logback">
+<meta name="twitter:description" content="集成logback 的时候碰到一个问题，就是先有很多第三方的lib使用的都是log4j。因此需要保证与之兼容。 2.4 与遗留Logging框架兼容目前行业除了Logback之外，广泛使用的还有其他四种Logging框架：  Log4j 1 (http://logging.apache.org/log4j/1.2/)      Log4j 2 (http://logging.apache.org/">
+  
+    <link rel="alternate" href="/atom.xml" title="Peace In Mind" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Peace In Mind</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Go Bigger or Go Home</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-logback" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/16/logback/" class="article-date">
+  <time datetime="2017-08-16T12:25:42.000Z" itemprop="datePublished">2017-08-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      logback
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>集成logback 的时候碰到一个问题，就是先有很多第三方的lib使用的都是log4j。因此需要保证与之兼容。</p>
+<h2 id="2-4-与遗留Logging框架兼容"><a href="#2-4-与遗留Logging框架兼容" class="headerlink" title="2.4 与遗留Logging框架兼容"></a>2.4 与遗留Logging框架兼容</h2><p>目前行业除了Logback之外，广泛使用的还有其他四种Logging框架：</p>
+<ol>
+<li>Log4j 1 (<a href="http://logging.apache.org/log4j/1.2/" target="_blank" rel="noopener">http://logging.apache.org/log4j/1.2/</a>)     </li>
+<li>Log4j 2 (<a href="http://logging.apache.org/log4j/2.x/" target="_blank" rel="noopener">http://logging.apache.org/log4j/2.x/</a>)     </li>
+<li>java.util.logging (<a href="http://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html" target="_blank" rel="noopener">http://docs.oracle.com/javase/8/docs/api/java/util/logging/package-summary.html</a>)     </li>
+<li>Apache commons Logging (<a href="http://commons.apache.org/proper/commons-logging/" target="_blank" rel="noopener">http://commons.apache.org/proper/commons-logging/</a>)     </li>
+</ol>
+<p>Log4j2 因为是刚出来的，目前SLF4J对其的兼容性还未知，对于其他的三种框架，SLF4J都提供了兼容性的支持。下面介绍了如何让Logbak兼容这些框架，另外，也可以阅读官方说明：<a href="http://www.slf4j.org/legacy.html" target="_blank" rel="noopener">http://www.slf4j.org/legacy.html</a></p>
+<h4 id="2-4-1-兼容Log4j-1和Apache-Commons-Logging"><a href="#2-4-1-兼容Log4j-1和Apache-Commons-Logging" class="headerlink" title="2.4.1 兼容Log4j 1和Apache Commons Logging"></a>2.4.1 兼容Log4j 1和Apache Commons Logging</h4><p>SLF4J对于Log4J 1和Apache commons Logging的支持方式是提供了实现Log4j和Apache commons Logging接口的SLF4J实现。使用方式是</p>
+<ol>
+<li>去取对Log4J和Apache commons Logging的Jar包的引用     </li>
+<li>引入SLF4J的对应接口的实现包。     </li>
+</ol>
+<h4 id="2-4-1-1-移除引用"><a href="#2-4-1-1-移除引用" class="headerlink" title="2.4.1.1 移除引用"></a>2.4.1.1 移除引用</h4><p>如果你的系统是直接的使用了Log4j或者Apache commons Logging框架的话，你可以直接把对他们的引用去掉就可以了。如果是你所引用的第三方包里面引用了Log4j或者Apache commons Logging，可以使用<exclusions>标签去掉对他们的引用，如下所示：</exclusions></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.ldap&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-ldap-core&lt;/artifactId&gt;</span><br><span class="line">  &lt;exclusions&gt;</span><br><span class="line">      &lt;exclusion&gt;</span><br><span class="line">          &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;</span><br><span class="line">          &lt;groupId&gt;commons-logging&lt;/groupId&gt;</span><br><span class="line">      &lt;/exclusion&gt;</span><br><span class="line">  &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">如何找到哪些第三方包引用了Log4j或者Apache commons Logging呢？有俩个方法：</span><br><span class="line">1. 使用 mvn dependency:tree 命令，如下图所示，可以看出需要在org.springframework.ldap:spring-ldap-core中排除掉对Apache commons Logging的引用。</span><br><span class="line"></span><br><span class="line">2. 第二种方式是使用Eclipse的m2e Maven插件。如下图所示，打开pom.xml文件后，选择Dependency Hierarchy标签，然后在Filter中输入logging或者log4j进行过滤，在左侧的Dependency Hierarchy中使用右键菜单就可以自动过滤了。 </span><br><span class="line"></span><br><span class="line">#### 2.4.1.2 Maven导入对应的SLF4J实现包</span><br></pre></td></tr></table></figure>
+<!-- Log4j 的SLF4J 实现 -->
+<p><dependency><br>    <groupid>org.slf4j</groupid><br>    <artifactid>log4j-over-slf4j</artifactid><br>    <version>1.7.6</version><br></dependency><br><!-- Apache commons Logging 的SLF4J实现 --></p>
+<p><dependency><br>    <groupid>org.slf4j</groupid><br>    <artifactid>jcl-over-slf4j</artifactid><br>    <version>1.7.6</version><br></dependency><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 2.4.1.3 非Maven版导入对应的SLF4J实现包</span><br><span class="line"></span><br><span class="line">直接删除掉log4j-1.**.jar和commons-logging-1.**.jar文件，把http://slf4j.org/dist/slf4j-1.7.6.zip下载下来，把压缩包里的log4j-over-slf4j-1.7.6.jar或者（和）jcl-over-slf4j-1.7.6.jar文件放到classpath中。</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">### 2.4.2 兼容java.util.logging</span><br><span class="line"></span><br><span class="line">SLF4J的jul-to-slf4j模块实现了一个java.util.logging handler，该handler会把对java.util.logging的调用都转化成对SLF4J实现的调用。所以需要以下俩个步骤：</span><br><span class="line"></span><br><span class="line">1. 导入jul-to-slf4j模块     </span><br><span class="line">1. 启用jul-to-slf4j模块     </span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">#### 2.4.2.1 导入jul-to-slf4j模块maven版</span><br></pre></td></tr></table></figure></p>
+<p><dependency><br>    <groupid>org.slf4j</groupid><br>    <artifactid>jul-to-slf4j</artifactid><br>    <version>1.7.6</version><br></dependency><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 2.4.2.2 导入jul-to-slf4j模块非Maven版</span><br><span class="line"></span><br><span class="line">把http://slf4j.org/dist/slf4j-1.7.6.zip下载下来，把压缩包里的jul-to-slf4j-1.7.6.jar放到classpath中。</span><br><span class="line"></span><br><span class="line">#### 2.4.2.3 启用jul-to-slf4j模块</span><br><span class="line"></span><br><span class="line">在logging.properties中添加如下一行：</span><br></pre></td></tr></table></figure></p>
+<p>handlers = org.slf4j.bridge.SLF4JBridgeHandler<br><code>`</code></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://www.cnblogs.com/justuntil/p/4067160.html" target="_blank" rel="noopener">http://www.cnblogs.com/justuntil/p/4067160.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/16/logback/" data-id="ck059hv6v000gvzomo2iibnyh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/15/split-pem/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          split_pem
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/29/convert-pem-to-jks/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">convert_pem_to_jks</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithm-IR/">algorithm, IR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk-pem/">awk, pem</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos-python-pip/">centos, python, pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/g-c-compiler/">g++, c++, compiler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/grep/">grep</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/guava-java/">guava, java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-8-lambda/">java 8, lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java-maven/">java, maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/">jps, hsperfdata, jstack, jmap, jhat, systemctl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log-es-elk/">log, es, elk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mqtt/">mqtt</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis-qna/">mybatis, qna</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/openresty-lua-module/">openresty, lua, module</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python-pip-library/">python, pip, library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis-lua/">redis, lua</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sed/">sed</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spring-boot/">spring-boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-keytool-openssl/">ssl, keytool, openssl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tls-encrypted-alert/">ssl, tls, encrypted alert</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssl-tsl-security-web/">ssl, tsl, security, web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tr/">tr</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/algorithm-IR/" style="font-size: 10px;">algorithm, IR</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/awk-pem/" style="font-size: 10px;">awk, pem</a> <a href="/tags/centos-python-pip/" style="font-size: 10px;">centos, python, pip</a> <a href="/tags/g-c-compiler/" style="font-size: 10px;">g++, c++, compiler</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/grep/" style="font-size: 10px;">grep</a> <a href="/tags/guava-java/" style="font-size: 10px;">guava, java</a> <a href="/tags/java-8-lambda/" style="font-size: 10px;">java 8, lambda</a> <a href="/tags/java-maven/" style="font-size: 10px;">java, maven</a> <a href="/tags/jps-hsperfdata-jstack-jmap-jhat-systemctl/" style="font-size: 10px;">jps, hsperfdata, jstack, jmap, jhat, systemctl</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/log-es-elk/" style="font-size: 10px;">log, es, elk</a> <a href="/tags/mqtt/" style="font-size: 10px;">mqtt</a> <a href="/tags/mybatis-qna/" style="font-size: 10px;">mybatis, qna</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/openresty-lua-module/" style="font-size: 10px;">openresty, lua, module</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/python-pip-library/" style="font-size: 10px;">python, pip, library</a> <a href="/tags/redis-lua/" style="font-size: 10px;">redis, lua</a> <a href="/tags/sed/" style="font-size: 10px;">sed</a> <a href="/tags/spring-boot/" style="font-size: 10px;">spring-boot</a> <a href="/tags/ssl-keytool-openssl/" style="font-size: 10px;">ssl, keytool, openssl</a> <a href="/tags/ssl-tls-encrypted-alert/" style="font-size: 10px;">ssl, tls, encrypted alert</a> <a href="/tags/ssl-tsl-security-web/" style="font-size: 10px;">ssl, tsl, security, web</a> <a href="/tags/tr/" style="font-size: 10px;">tr</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/09/04/remove-big-file-from-git-history/">Remove big file from GIT history</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/21/ssl-tls-encrypted-alert/">ssl_tls_encrypted_alert</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/05/spring-boot-qna/">spring_boot_qna</a>
+          </li>
+        
+          <li>
+            <a href="/2018/04/22/mybatis-collection-with-only-size-one/">mybatis-collection-with-only-size-one</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/06/compiler/">compiler</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Peace Coder<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
